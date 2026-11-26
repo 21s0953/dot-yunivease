@@ -1,20 +1,83 @@
-<!DOCTYPE html><meta charset="utf-8"><body style="background:aliceblue;color:darkslategray;text-align:center;font-family:sans-serif"><h1 style="color:royalblue">DOT YUNIVERSE</h1><div id="g" style="margin-top:40px"><button onclick="sL(1)" style="font-size:22px;padding:14px 30px;margin:8px">日本語 (JP)</button><button onclick="sL(0)" style="font-size:22px;padding:14px 30px;margin:8px">English (EN)</button></div><div id="nmV" style="display:none;margin-top:40px"><div id="nmT" style="font-size:20px;font-weight:bold;color:royalblue;margin-bottom:10px"></div><input id="pnm" maxlength="12" style="font-size:20px;padding:8px;text-align:center"> <button onclick="okNm()" style="font-size:20px;padding:8px 20px;background:royalblue;color:white">OK</button></div><div id="m" style="display:none"><div style="margin:6px"><b id="crB" style="color:crimson"></b> <b id="pInf"></b> [ID:<span id="dId" style="color:royalblue"></span>]</div><div style="color:darkorange;font-weight:bold;font-size:18px;margin:6px">$<b id="mn">0</b> <span id="dyB" style="color:royalblue;font-size:14px">Day 1 (10:00)</span></div><div style="margin:6px"><button onclick="tl=0" id="t0"></button> <button onclick="tl=1" id="t1"></button> <button onclick="gd=!gd;dw()">GRID</button> <button onclick="clr()" id="cl"></button></div><div style="display:inline-flex;gap:16px;align-items:flex-start"><canvas id="c" width="320" height="320" style="border:3px solid royalblue;background:white;cursor:crosshair"></canvas><div style="text-align:left;background:white;padding:12px;border:2px solid lightsteelblue;border-radius:10px"><div id="pv" style="width:48px;height:48px;border:2px solid gray;margin-bottom:8px"></div>H:<input id="ch" type="range" min="0" max="360" value="200" oninput="uCol()"><br>S:<input id="cs" type="range" min="0" max="100" value="100" oninput="uCol()"><br>L:<input id="cl2" type="range" min="0" max="100" value="50" oninput="uCol()"><br><button onclick="sell()" id="sl" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:10px;padding:8px"></button><div id="ms" style="color:crimson;font-weight:bold;margin-top:6px"></div></div></div><div style="margin-top:10px"><button onclick="up1()" id="u1"></button> <button onclick="up5()" id="u5"></button></div></div>
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body style="background:aliceblue;color:darkslategray;text-align:center;font-family:sans-serif">
+<h1 style="color:royalblue">DOT YUNIVERSE</h1>
+<div id="g" style="margin-top:40px">
+  <button id="b0" style="font-size:22px;padding:14px 30px;margin:8px">日本語 (JP)</button>
+  <button id="b1" style="font-size:22px;padding:14px 30px;margin:8px">English (EN)</button>
+</div>
+<div id="nmV" style="display:none;margin-top:40px">
+  <div id="nmT" style="font-size:20px;font-weight:bold;color:royalblue;margin-bottom:10px"></div>
+  <input id="pnm" maxlength="12" style="font-size:20px;padding:8px;text-align:center">
+  <button id="nmOk" style="font-size:20px;padding:8px 20px;background:royalblue;color:white">OK</button>
+</div>
+<div id="m" style="display:none">
+  <div style="margin:6px"><b id="crB" style="color:crimson"></b> <b id="pInf"></b> [ID:<span id="dId" style="color:royalblue"></span>]</div>
+  <div style="color:darkorange;font-weight:bold;font-size:18px;margin:6px">$<b id="mn">0</b></div>
+  <div style="margin:6px"><button id="t0"></button> <button id="t1"></button> <button id="cl"></button></div>
+  <div style="display:inline-flex;gap:16px;align-items:flex-start">
+    <canvas id="c" width="320" height="320" style="border:3px solid royalblue;background:white;cursor:crosshair"></canvas>
+    <div style="text-align:left;background:white;padding:12px;border:2px solid lightsteelblue;border-radius:10px">
+      <div id="pv" style="width:48px;height:48px;border:2px solid gray;margin-bottom:8px"></div>
+      H:<input id="ch" type="range" min="0" max="360" value="200"><br>
+      S:<input id="cs" type="range" min="0" max="100" value="100"><br>
+      L:<input id="cl2" type="range" min="0" max="100" value="50"><br>
+      <button id="sl" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:10px;padding:8px"></button>
+      <div id="ms" style="color:crimson;font-weight:bold;margin-top:6px"></div>
+    </div>
+  </div>
+  <div style="margin-top:10px"><button id="u1"></button></div>
+</div>
 <script>
-x=c.getContext('2d');
-SZ=new Array(8,12,16,32);
-lvC=0;L=1;tl=0;gd=1;lv1=1;money=0;isCr=0;crSt=0;gDay=1;gTm=600;dn=0;
-B=Array.from({length:8},function(){return Array(8).fill('')});
+var x=c.getContext('2d');
+var L=1,tl=0,lv1=1,money=0,isCr=0,crSt=0,dn=0;
 function gCol(){return 'hsl('+ch.value+','+cs.value+'%,'+cl2.value+'%)';}
 function uCol(){pv.style.background=gCol();}
-function sL(l){L=l;g.style.display='none';nmV.style.display='block';nmT.innerText=L?'名前を入力':'ENTER NAME';t0.innerText=L?'ペン':'PEN';t1.innerText=L?'消しゴム':'ERASER';cl.innerText=L?'全消し':'CLEAR';sl.innerText=L?'今すぐ売る':'SELL NOW';}
-function okNm(){raw=pnm.value.trim();if(crSt==0&&raw=='yuaou1024'){crSt=1;pnm.value='';pnm.focus();return;}nmV.style.display='none';m.style.display='block';isCr=(crSt==1)?1:0;if(isCr){lv1=10;lvC=3;B=Array.from({length:32},function(){return Array(32).fill('')});crB.innerText=L?'作者':'CREATOR';}pInf.innerText=(raw||'PLAYER').slice(0,8);dId.innerText=Math.random().toString(36).slice(2,12).toUpperCase();uCol();uSh();dw();}
-function uSh(){mn.innerText=isCr?'∞':money;u1.innerText=(L?'価格アップ':'PRICE+')+(isCr?'MAX':'Lv'+(lv1+1)+'($'+(lv1*40)+')');u5.innerText=(L?'サイズ拡大':'SIZE UP')+'('+SZ.at(lvC)+'x'+SZ.at(lvC)+(lvC==3?'(MAX)':'($'+((lvC+1)*120)+')')+')';s1=gTm%60;dyB.innerText='Day '+gDay+' ('+Math.floor(gTm/60)+':'+(String(s1).padStart(2,'0'))+')';}
-setInterval(function(){if(m.style.display=='block'){gTm--;if(gTm==0){gDay++;gTm=600;if(!isCr&&money!=0){tax=Math.floor(money*0.1);money-=tax;ms.innerText=(L?'Day '+gDay+'! 10%徴収(-$'+tax+')':'Day '+gDay+'! 10% tax(-$'+tax+')');}}uSh();}},1000);
-function dw(){n=B.length;sz=320/n;x.fillStyle='white';x.fillRect(0,0,320,320);B.forEach(function(r,y){r.forEach(function(v,z){if(v){x.fillStyle=v;x.fillRect(z*sz,y*sz,sz,sz);}});});if(gd){x.strokeStyle='lightgray';B.forEach(function(r,i){x.beginPath();x.moveTo(i*sz,0);x.lineTo(i*sz,320);x.moveTo(0,i*sz);x.lineTo(320,i*sz);x.stroke();});}}
-function drw(e){n=B.length;rc=c.getBoundingClientRect();sz=320/n;col=Math.floor((e.clientX-rc.left)/sz);row=Math.floor((e.clientY-rc.top)/sz);if(B.at(row)&&B.at(row).at(col)!=null){B.at(row).splice(col,1,tl==0?gCol():'');dw();}}
-c.onpointerdown=function(e){dn=1;drw(e);};c.onpointermove=function(e){if(dn)drw(e);};c.onpointerup=function(){dn=0;};
-function clr(){n=SZ.at(lvC);B=Array.from({length:n},function(){return Array(n).fill('')});dw();}
-function sell(){cnt=0;B.forEach(function(r){r.forEach(function(v){if(v)cnt++;});});if(cnt==0)return;pr=cnt*10*lv1;if(!isCr)money+=pr;ms.innerText=(L?'売却完了!':'SOLD!')+' +$'+(isCr?'∞':pr);clr();uSh();}
-function up1(){if(isCr||money==lv1*40||money-lv1*40==Math.abs(money-lv1*40)){if(!isCr)money-=lv1*40;lv1++;uSh();}}
-function up5(){if(isCr){lvC=(lvC+1)%4;clr();uSh();}else if(lvC!=3&&(money-(lvC+1)*120)==Math.abs(money-(lvC+1)*120)){money-=(lvC+1)*120;lvC++;clr();uSh();}}
-</script></body>
+ch.oninput=cs.oninput=cl2.oninput=uCol;
+function sL(l){
+  L=l;g.style.display='none';nmV.style.display='block';
+  nmT.innerText=L?'名前を入力':'ENTER NAME';
+  t0.innerText=L?'ペン':'PEN';
+  t1.innerText=L?'消しゴム':'ERASER';
+  cl.innerText=L?'全消し':'CLEAR';
+  sl.innerText=L?'今すぐ売る':'SELL NOW';
+}
+b0.onclick=function(){sL(1);};
+b1.onclick=function(){sL(0);};
+nmOk.onclick=function(){
+  var raw=pnm.value.trim();
+  if(crSt==0&&raw=='yuaou1024'){crSt=1;pnm.value='';pnm.focus();return;}
+  nmV.style.display='none';m.style.display='block';
+  isCr=(crSt==1)?1:0;
+  if(isCr){lv1=10;crB.innerText=L?'作者':'CREATOR';}
+  pInf.innerText=(raw||'PLAYER').slice(0,8);
+  dId.innerText=Math.random().toString(36).slice(2,12).toUpperCase();
+  uCol();uSh();x.fillStyle='white';x.fillRect(0,0,320,320);
+};
+function uSh(){
+  mn.innerText=isCr?'∞':money;
+  u1.innerText=(L?'価格アップ':'PRICE+')+(isCr?'MAX':'Lv'+(lv1+1)+'($'+(lv1*40)+')');
+}
+t0.onclick=function(){tl=0;};
+t1.onclick=function(){tl=1;};
+cl.onclick=function(){x.fillStyle='white';x.fillRect(0,0,320,320);};
+function drw(e){
+  var rc=c.getBoundingClientRect();
+  var cx=Math.floor((e.clientX-rc.left)/40)*40;
+  var cy=Math.floor((e.clientY-rc.top)/40)*40;
+  x.fillStyle=tl==0?gCol():'white';
+  x.fillRect(cx,cy,40,40);
+}
+c.onpointerdown=function(e){dn=1;drw(e);};
+c.onpointermove=function(e){if(dn)drw(e);};
+c.onpointerup=function(){dn=0;};
+sl.onclick=function(){
+  var pr=50*lv1;if(!isCr)money+=pr;
+  ms.innerText=(L?'売却完了!':'SOLD!')+' +$'+(isCr?'∞':pr);
+  x.fillStyle='white';x.fillRect(0,0,320,320);uSh();
+};
+u1.onclick=function(){
+  if(isCr||money>=lv1*40){if(!isCr)money-=lv1*40;lv1++;uSh();}
+};
+</script>
+</body>
