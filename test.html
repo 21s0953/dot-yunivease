@@ -1,4 +1,30 @@
 <!DOCTYPE html><meta charset="utf-8"><body style="text-align:center;background:aliceblue"><h1 style="color:royalblue">DOT YUNIVERSE</h1>
 <div id="g"><button onclick="window.L=1;g.style.display='none';nmV.style.display='block';nmT.innerText='名前を入力'" style="font-size:22px;padding:14px">日本語 (JP)</button> <button onclick="window.L=0;g.style.display='none';nmV.style.display='block';nmT.innerText='ENTER NAME'" style="font-size:22px;padding:14px">English (EN)</button></div>
 <div id="nmV" style="display:none"><p id="nmT">名前を入力</p><input id="pnm" maxlength="12"><button onclick="r=pnm.value.trim();if(!window.cr&&r=='yuaou1024'){window.cr=1;pnm.value='';return}nmV.style.display='none';m.style.display='block';pInf.innerText=(window.cr?(L?'[作者] ':'[CREATOR] '):'')+(r||'PLAYER')+' [ID:'+Math.random().toString(36).slice(2,12).toUpperCase()+']'">OK</button></div>
-<div id="m" style="display:none"><h2 id="pInf"></h2><p>ゲーム画面が開きました！</p></div></body>
+<div id="m" style="display:none">
+  <h3 id="pInf" style="margin:6px"></h3>
+  <div style="color:darkorange;font-weight:bold;font-size:18px;margin:6px">$<b id="mn">0</b></div>
+  <div style="margin:6px">
+    <button onclick="window.tl=0">ペン / PEN</button>
+    <button onclick="window.tl=1">消しゴム / ERASE</button>
+    <button onclick="x=c.getContext('2d');x.fillStyle='white';x.fillRect(0,0,320,320)">全消し / CLEAR</button>
+  </div>
+  <div style="display:inline-flex;gap:16px;align-items:flex-start">
+    <canvas id="c" width="320" height="320" style="border:3px solid royalblue;background:white;cursor:crosshair"
+      onpointerdown="window.dn=1;x=c.getContext('2d');rc=c.getBoundingClientRect();cx=Math.floor((event.clientX-rc.left)/40)*40;cy=Math.floor((event.clientY-rc.top)/40)*40;x.fillStyle=window.tl==1?'white':'hsl('+ch.value+','+cs.value+'%,'+cl2.value+'%)';x.fillRect(cx,cy,40,40)"
+      onpointermove="if(window.dn){x=c.getContext('2d');rc=c.getBoundingClientRect();cx=Math.floor((event.clientX-rc.left)/40)*40;cy=Math.floor((event.clientY-rc.top)/40)*40;x.fillStyle=window.tl==1?'white':'hsl('+ch.value+','+cs.value+'%,'+cl2.value+'%)';x.fillRect(cx,cy,40,40)}"
+      onpointerup="window.dn=0"></canvas>
+    <div style="text-align:left;background:white;padding:12px;border:2px solid lightsteelblue;border-radius:10px">
+      <div id="pv" style="width:48px;height:48px;border:2px solid gray;background:hsl(200,100%,50%);margin-bottom:8px"></div>
+      H:<input id="ch" type="range" min="0" max="360" value="200" oninput="pv.style.background='hsl('+ch.value+','+cs.value+'%,'+cl2.value+'%)'"><br>
+      S:<input id="cs" type="range" min="0" max="100" value="100" oninput="pv.style.background='hsl('+ch.value+','+cs.value+'%,'+cl2.value+'%)'"><br>
+      L:<input id="cl2" type="range" min="0" max="100" value="50" oninput="pv.style.background='hsl('+ch.value+','+cs.value+'%,'+cl2.value+'%)'"><br>
+      <button onclick="pr=50*(window.lv1||1);window.money=(window.money||0)+pr;mn.innerText=window.cr?'∞':window.money;ms.innerText='+$'+(window.cr?'∞':pr);x=c.getContext('2d');x.fillStyle='white';x.fillRect(0,0,320,320)" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:10px;padding:8px">売る / SELL</button>
+      <div id="ms" style="color:crimson;font-weight:bold;margin-top:6px"></div>
+    </div>
+  </div>
+  <div style="margin-top:10px">
+    <button onclick="cost=(window.lv1||1)*40;if(window.cr||(window.money||0)>=cost){if(!window.cr)window.money-=cost;window.lv1=(window.lv1||1)+1;mn.innerText=window.cr?'∞':window.money;this.innerText='価格UP Lv'+window.lv1+' ($'+(window.lv1*40)+')'}">価格UP Lv1 ($40)</button>
+  </div>
+</div>
+</body>
