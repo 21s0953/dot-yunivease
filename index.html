@@ -1,3 +1,639 @@
-<!DOCTYPE html><meta charset="utf-8"><body style="background:aliceblue;color:darkslategray;text-align:center;font-family:sans-serif"><h1 style="color:royalblue">DOT YUNIVERSE</h1><div id="g" style="margin-top:40px"><button onclick="start(1)" style="font-size:22px;padding:14px 30px;margin:8px;cursor:pointer">日本語 (JP)</button><button onclick="start(0)" style="font-size:22px;padding:14px 30px;margin:8px;cursor:pointer">English (EN)</button></div><div id="nmV" style="display:none;margin-top:40px"><div id="nmT" style="font-size:20px;font-weight:bold;color:royalblue;margin-bottom:10px"></div><input id="pnm" maxlength="12" style="font-size:20px;padding:8px;text-align:center"> <button onclick="setName()" style="font-size:20px;padding:8px 20px;background:royalblue;color:white;cursor:pointer">OK</button></div>
-<div id="m" style="display:none"><div style="margin:6px"><b id="crB"></b> <b id="pInf"></b> [ID:<span id="dId" style="color:royalblue;font-weight:bold"></span>]</div><div style="color:darkorange;font-weight:bold;font-size:18px;margin:6px">$<b id="mn">0</b> <span id="dyB" style="color:royalblue;font-size:14px">Day 1 (10:00)</span></div><div style="margin:6px"><button onclick="tl=0" id="t0"></button> <button onclick="tl=1" id="t1"></button> <button onclick="gd=!gd;dw()">GRID</button> <button onclick="clr()" id="cl"></button></div><div style="display:inline-flex;gap:16px;align-items:flex-start"><canvas id="c" width="320" height="320" style="border:3px solid royalblue;background:white;cursor:crosshair;touch-action:none"></canvas><div style="text-align:left;background:white;padding:12px;border:2px solid lightsteelblue;border-radius:10px"><div id="pv" style="width:48px;height:48px;border:2px solid gray;margin-bottom:8px"></div>H:<input id="ch" type="range" min="0" max="360" value="200" oninput="uCol()"><br>S:<input id="cs" type="range" min="0" max="100" value="100" oninput="uCol()"><br>L:<input id="cl2" type="range" min="0" max="100" value="50" oninput="uCol()"><br><button onclick="sellArt()" id="sl" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:10px;padding:8px"></button><div id="ms" style="color:crimson;font-weight:bold;margin-top:6px"></div></div></div><div style="margin-top:10px"><button onclick="upPrice()" id="u1"></button> <button onclick="upSize()" id="u5"></button></div></div>
-<script>x=c.getContext('2d');SZ=new Array(8,12,16,32);lvC=0;B=Array.from({length:8},()=>Array(8).fill(''));L=1;tl=0;gd=1;lv1=1;money=0;isCr=0;crSt=0;gDay=1;gTm=600;gCol=()=>`hsl(${ch.value},${cs.value}%,${cl2.value}%)`;uCol=()=>{pv.style.background=gCol()};start=l=>{L=l;g.style.display='none';nmV.style.display='block';nmT.innerText=L?'名前を入力':'ENTER NAME';t0.innerText=L?'ペン':'PEN';t1.innerText=L?'消しゴム':'ERASER';cl.innerText=L?'全消し':'CLEAR';sl.innerText=L?'今すぐ売る':'SELL NOW'};setName=()=>{raw=pnm.value.trim();if(crSt==0&&raw=='yuaou1024'){crSt=1;pnm.value='';pnm.focus();return}nmV.style.display='none';m.style.display='block';isCr=(crSt==1)?1:0;if(isCr){lv1=10;lvC=3;B=Array.from({length:32},()=>Array(32).fill(''));crB.innerText=L?'作者':'CREATOR'}pInf.innerText=(raw||'PLAYER').slice(0,8);dId.innerText=Math.random().toString(36).slice(2,12).toUpperCase();uCol();uSh();dw()};uSh=()=>{mn.innerText=isCr?'∞':money;u1.innerText=(L?'価格アップ':'PRICE+')+(isCr?'MAX':`Lv${lv1+1}($${lv1*40})`);u5.innerText=(L?'サイズ拡大':'SIZE UP')+`(${SZ.at(lvC)}x${SZ.at(lvC)}`+(lvC>=3?'(MAX)':`($${(lvC+1)*120})`)+')';dyB.innerText=`Day ${gDay} (${Math.floor(gTm/60)}:${String(gTm%60).padStart(2,'0')})`};setInterval(()=>{if(m.style.display=='block'){gTm--;if(gTm<=0){gDay++;gTm=600;if(!isCr&&money>0){tax=Math.floor(money*0.1);money-=tax;ms.innerText=(L?`Day ${gDay}! 10%徴収(-$${tax})`:`Day ${gDay}! 10% tax(-$${tax})`)}}uSh()}},1000);dw=()=>{n=B.length;sz=320/n;x.fillStyle='white';x.fillRect(0,0,320,320);B.forEach((r,y)=>r.forEach((v,z)=>{if(v){x.fillStyle=v;x.fillRect(z*sz,y*sz,sz,sz)}}));if(gd){x.strokeStyle='lightgray';for(i=0;i<n;i++){x.beginPath();x.moveTo(i*sz,0);x.lineTo(i*sz,320);x.moveTo(0,i*sz);x.lineTo(320,i*sz);x.stroke()}}};dn=0;drw=e=>{n=B.length;rc=c.getBoundingClientRect();sz=320/n;col=Math.floor((e.clientX-rc.left)/sz);row=Math.floor((e.clientY-rc.top)/sz);if(row<0||row>=n||col<0||col>=n)return;B.at(row).splice(col,1,tl==0?gCol():'');dw()};c.onpointerdown=e=>{dn=1;drw(e)};c.onpointermove=e=>{if(dn)drw(e)};c.onpointerup=()=>{dn=0};clr=()=>{n=SZ.at(lvC);B=Array.from({length:n},()=>Array(n).fill(''));dw()};sellArt=()=>{cnt=0;B.forEach(r=>r.forEach(v=>{if(v)cnt++}));if(cnt==0)return;pr=cnt*10*lv1;if(!isCr)money+=pr;ms.innerText=(L?'売却完了!':'SOLD!')+` +$${isCr?'∞':pr}`;clr();uSh()};upPrice=()=>{if(isCr||money>=lv1*40){if(!isCr)money-=lv1*40;lv1++;uSh()}};upSize=()=>{if(isCr){lvC=(lvC+1)%4;clr();uSh()}else if(lvC<3&&money>=(lvC+1)*120){money-=(lvC+1)*120;lvC++;clr();uSh()}};</script></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOT YUNIVERSE</title>
+</head>
+<body style="background:aliceblue;color:darkslategray;text-align:center;font-family:sans-serif;overflow-x:hidden;font-size:16px;margin:0;padding:10px">
+<div style="position:relative">
+  <div style="position:absolute;left:10px;top:6px">
+    <button id="fb" style="display:none;background:mediumpurple;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer"></button>
+    <button id="db" style="display:none;background:gold;color:black;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer"></button>
+    <button id="sb" style="display:none;background:deeppink;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer"></button>
+  </div>
+  <h1 style="margin:6px;color:royalblue;font-size:32px">DOT YUNIVERSE</h1>
+</div>
+
+<div id="g" style="margin-top:60px">
+  <button id="b0" style="font-size:24px;padding:18px 36px;margin:10px;border-radius:12px;cursor:pointer">日本語 (JP)</button>
+  <button id="b1" style="font-size:24px;padding:18px 36px;margin:10px;border-radius:12px;cursor:pointer">English (EN)</button>
+</div>
+
+<div id="nmV" style="display:none;max-width:460px;margin:50px auto;background:white;padding:28px;border:3px solid royalblue;border-radius:16px">
+  <div id="nmT" style="font-weight:bold;color:royalblue;margin-bottom:16px;font-size:24px"></div>
+  <input id="pnm" maxlength="12" size="16" placeholder="NAME" style="text-align:center;font-size:22px;padding:10px;border-radius:8px">
+  <button id="nmOk" style="background:royalblue;color:white;font-weight:bold;font-size:22px;padding:10px 24px;border-radius:8px;cursor:pointer">OK</button>
+</div>
+
+<div id="hlp" style="display:none;max-width:620px;margin:30px auto;background:white;padding:24px;border:3px solid royalblue;border-radius:16px">
+  <div id="ht" style="font-weight:bold;color:royalblue;margin-bottom:14px;font-size:24px"></div>
+  <div style="display:inline-flex;gap:24px;align-items:center">
+    <div>
+      <canvas id="tc" width="160" height="160" style="border:3px solid royalblue;cursor:pointer"></canvas><br>
+      <input id="tch" type="range" min="0" max="360" value="200" style="width:150px;margin-top:8px">
+    </div>
+    <div id="hb" style="text-align:left;font-size:18px;line-height:1.9"></div>
+  </div>
+  <div style="margin-top:18px">
+    <button id="go" style="background:royalblue;color:white;font-weight:bold;padding:12px 32px;font-size:20px;border-radius:10px;cursor:pointer"></button>
+  </div>
+</div>
+
+<div id="m" style="display:none">
+  <div style="font-size:15px;margin:4px">
+    <b id="crB"></b> <b id="pInf"></b> [ID:<span id="dId" style="color:royalblue;font-weight:bold"></span> <button id="cpId" style="font-size:12px;padding:2px 8px;cursor:pointer">COPY</button>] <span id="petSt" style="color:saddlebrown;font-weight:bold"></span>
+  </div>
+  <div style="background:white;display:inline-block;padding:6px 18px;border-radius:20px;border:2px solid orange;margin:4px">
+    <span style="color:darkorange;font-weight:bold;font-size:22px">$<b id="mn">100</b></span>
+    <span id="incRate" style="color:seagreen;font-size:14px;font-weight:bold;margin-left:8px">(+$0/s)</span>
+    <button id="mb" style="background:gold;font-weight:bold;font-size:14px;padding:4px 10px;border-radius:6px;margin-left:8px;cursor:pointer">BGM:OFF</button>
+    <button id="vw" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:4px 10px;border-radius:6px;cursor:pointer"></button>
+  </div>
+  <div id="edV">
+    <div style="margin:6px">
+      <button id="t0" style="font-size:13px;padding:5px 9px"></button>
+      <button id="t1" style="font-size:13px;padding:5px 9px"></button>
+      <button id="t2" style="font-size:13px;padding:5px 9px"></button>
+      <button id="t3" style="font-size:13px;padding:5px 9px"></button>
+      <button id="gr" style="font-size:13px;padding:5px 9px">GRID</button>
+      <button id="zm" style="font-size:13px;padding:5px 9px">ZOOM</button>
+      <button id="unB" style="font-size:13px;padding:5px 9px">UNDO</button>
+      <button id="rdB" style="font-size:13px;padding:5px 9px">REDO</button>
+      <button id="cl" style="font-size:13px;padding:5px 9px"></button>
+    </div>
+    <div style="display:inline-flex;gap:16px;align-items:flex-start">
+      <div style="width:300px;height:300px;overflow:auto;border:3px solid royalblue;background:white">
+        <canvas id="c" width="300" height="300" style="cursor:crosshair;touch-action:none"></canvas>
+      </div>
+      <div style="text-align:left;font-size:14px;background:white;padding:12px;border:2px solid lightsteelblue;border-radius:12px;width:160px">
+        <div id="pv" style="width:48px;height:48px;border:2px solid gray;margin-bottom:8px;border-radius:6px"></div>
+        H:<input id="ch" type="range" min="0" max="360" value="200" style="width:110px"><br>
+        S:<input id="cs" type="range" min="0" max="100" value="100" style="width:110px"><br>
+        L:<input id="cl2" type="range" min="0" max="100" value="50" style="width:110px"><br>
+        <button id="bgB" style="background:orange;color:white;font-weight:bold;width:100%;margin-top:8px;padding:7px;font-size:14px;border-radius:6px;cursor:pointer"></button><br>
+        <button id="sl" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:6px;padding:7px;font-size:14px;border-radius:6px;cursor:pointer"></button>
+        <div id="ms" style="color:crimson;font-weight:bold;margin-top:6px;font-size:13px"></div>
+      </div>
+    </div>
+  </div>
+  <div id="pkV" style="display:none">
+    <canvas id="pc" width="460" height="240" style="border:3px solid mediumseagreen;background:honeydew"></canvas>
+    <div id="pkH" style="font-size:14px;color:seagreen;font-weight:bold;margin-top:4px"></div>
+  </div>
+  <div style="margin-top:8px;background:white;padding:10px;border-radius:12px;border:2px solid lightsteelblue;max-width:680px;margin-left:auto;margin-right:auto">
+    <div id="bgl" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;font-size:14px;min-height:48px"></div>
+    <hr style="border:1px dashed lightsteelblue;margin:8px 0">
+    <div id="gl" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;font-size:14px;min-height:64px"></div>
+    <div style="margin-top:10px">
+      <button id="u1" style="font-size:13px;padding:6px 10px;cursor:pointer"></button>
+      <button id="u2" style="font-size:13px;padding:6px 10px;cursor:pointer"></button>
+      <button id="u3" style="font-size:13px;padding:6px 10px;cursor:pointer"></button>
+      <button id="u4" style="font-size:13px;padding:6px 10px;cursor:pointer"></button>
+      <button id="u5" style="font-size:13px;padding:6px 10px;cursor:pointer"></button>
+      <button id="rst" style="font-size:12px;color:gray;padding:6px 8px;cursor:pointer">RESET</button>
+    </div>
+  </div>
+</div>
+<div id="spV" style="display:none;max-width:680px;margin:14px auto;background:white;padding:18px;border:3px solid deeppink;border-radius:16px">
+  <div style="font-weight:bold;color:deeppink;font-size:22px;margin-bottom:12px" id="spT"></div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+    <div style="flex:1;min-width:190px;background:ivory;border:2px solid orange;border-radius:12px;padding:12px">
+      <div style="font-size:28px">🐶</div>
+      <div style="font-weight:bold;color:darkorange;font-size:16px" id="petT"></div>
+      <div style="font-size:12px;color:darkslategray;margin:6px 0;min-height:36px" id="petD"></div>
+      <button id="buyPet" style="background:orange;color:white;font-weight:bold;padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font-size:14px"></button>
+    </div>
+    <div style="flex:1;min-width:190px;background:lemonchiffon;border:2px solid gold;border-radius:12px;padding:12px">
+      <div style="font-size:28px">✨🖼️✨</div>
+      <div style="font-weight:bold;color:goldenrod;font-size:16px" id="frmT"></div>
+      <div style="font-size:12px;color:darkslategray;margin:6px 0;min-height:36px" id="frmD"></div>
+      <button id="buyFrm" style="background:goldenrod;color:white;font-weight:bold;padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font-size:14px"></button>
+    </div>
+    <div style="flex:1;min-width:190px;background:lavenderblush;border:2px solid deeppink;border-radius:12px;padding:12px">
+      <div style="font-size:28px">🃏🐉</div>
+      <div style="font-weight:bold;color:deeppink;font-size:16px" id="crdT"></div>
+      <div style="font-size:12px;color:darkslategray;margin:6px 0;min-height:36px" id="crdD"></div>
+      <button id="buyCrd" style="background:deeppink;color:white;font-weight:bold;padding:7px 14px;border:none;border-radius:8px;cursor:pointer;font-size:14px"></button>
+    </div>
+  </div>
+  <div id="spMsg" style="font-weight:bold;color:crimson;margin-top:10px;min-height:20px"></div>
+  <div id="gachaRes" style="display:none;margin:10px auto;max-width:260px;padding:12px;border-radius:12px;border:3px solid gold;background:aliceblue"></div>
+  <hr style="border:1px dashed pink;margin:12px 0">
+  <div style="font-weight:bold;color:purple;margin-bottom:8px" id="colT"></div>
+  <div id="colList" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-height:220px;overflow-y:auto;padding:4px"></div>
+  <button id="bkS" style="margin-top:14px;font-size:15px;padding:7px 22px;border-radius:8px;cursor:pointer"></button>
+</div>
+
+<div id="dnV" style="display:none;max-width:480px;margin:16px auto;background:white;padding:20px;border:3px solid gold;border-radius:14px;font-size:16px">
+  <div style="font-weight:bold;color:darkorange;margin-bottom:10px;font-size:20px" id="dnT"></div>
+  <div style="background:ivory;padding:12px;border-radius:10px;border:1px solid gold;margin-bottom:12px">
+    <div style="font-weight:bold;color:darkslategray;margin-bottom:6px" id="dnSub1"></div>
+    <input id="dnId" maxlength="10" size="14" placeholder="ID (10 chars)" style="text-align:center;font-size:16px;padding:6px;border-radius:6px">
+    <div id="dnAmtB" style="display:none;margin-top:8px">
+      <div id="dnAsk" style="color:royalblue;font-weight:bold;margin-bottom:6px"></div>
+      <input id="dnAmt" type="number" min="1" placeholder="100" style="width:140px;text-align:center;font-size:16px;padding:6px;border-radius:6px">
+      <button id="dnGo" style="background:gold;font-weight:bold;font-size:15px;padding:6px 14px;border-radius:6px;cursor:pointer"></button>
+    </div>
+    <div id="dnRes" style="color:crimson;font-weight:bold;margin-top:8px"></div>
+    <div id="dnCodeBox" style="display:none;margin-top:8px;background:aliceblue;padding:8px;border-radius:8px;border:1px dashed royalblue">
+      <div style="font-size:13px;color:royalblue;font-weight:bold" id="dnCodeMsg"></div>
+      <input id="dnGiftOut" readonly style="width:90%;font-size:12px;padding:4px;margin:4px 0;text-align:center"><br>
+      <button id="cpGift" style="background:royalblue;color:white;font-size:13px;padding:4px 12px;border-radius:6px;cursor:pointer">COPY GIFT CODE</button>
+    </div>
+  </div>
+  <div style="background:honeydew;padding:12px;border-radius:10px;border:1px solid mediumseagreen">
+    <div style="font-weight:bold;color:seagreen;margin-bottom:6px" id="dnSub2"></div>
+    <input id="dnRcvIn" placeholder="GIFT CODE" style="width:70%;font-size:14px;padding:6px;border-radius:6px">
+    <button id="dnRcvBtn" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 12px;border-radius:6px;cursor:pointer">OK</button>
+    <div id="dnRcvRes" style="color:seagreen;font-weight:bold;margin-top:6px;font-size:14px"></div>
+  </div>
+  <button id="bkD" style="margin-top:14px;font-size:14px;padding:6px 18px;border-radius:8px;cursor:pointer"></button>
+</div>
+
+<div id="frV" style="display:none;max-width:520px;margin:16px auto;background:white;padding:18px;border:3px solid mediumpurple;border-radius:12px;font-size:16px">
+  <div style="font-weight:bold;color:mediumpurple;margin-bottom:10px;font-size:18px" id="frT"></div>
+  <div id="frM">
+    <button id="ch1" style="background:mediumpurple;color:white;font-weight:bold;padding:10px 18px;margin:5px;font-size:16px"></button>
+    <button id="ch2" style="background:mediumseagreen;color:white;font-weight:bold;padding:10px 18px;margin:5px;font-size:16px"></button><br>
+    <button id="bkF" style="margin-top:10px;font-size:14px;padding:6px 14px"></button>
+  </div>
+  <div id="frL" style="display:none;font-size:15px">
+    <input id="fn" size="10" style="font-size:15px;padding:4px">
+    <input id="fid" maxlength="10" size="10" placeholder="ID" style="font-size:15px;padding:4px">
+    <button id="af" style="background:mediumpurple;color:white;font-weight:bold;font-size:15px;padding:5px 12px"></button>
+    <div id="fls" style="margin:8px 0;max-height:130px;overflow:auto;border:1px solid lavender;padding:4px"></div>
+    <button id="bkL" style="font-size:14px;padding:6px 14px"></button>
+  </div>
+  <div id="frW" style="display:none;font-size:14px;text-align:left">
+    <div id="hwW" style="background:aliceblue;padding:8px;margin-bottom:8px;border-radius:6px"></div>
+    <div style="text-align:center">
+      <button id="mkC" style="background:gold;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+      <button id="noW" style="background:coral;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button><br>
+      <textarea id="cdI" rows="2" cols="36" style="margin-top:6px;font-size:12px" placeholder="CODE"></textarea><br>
+      <button id="goW" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 14px"></button>
+      <button id="bkW" style="font-size:14px;padding:6px 14px"></button>
+    </div>
+  </div>
+</div>
+
+<div id="otV" style="display:none">
+  <div id="otN" style="font-weight:bold;color:seagreen;margin-bottom:8px;font-size:18px"></div>
+  <div id="otG" style="display:inline-flex;gap:8px;margin:6px 0"></div><br>
+  <button id="lk" style="background:hotpink;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="coB" style="background:royalblue;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="acB" style="background:darkorange;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="nx" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="bkO" style="font-size:14px;padding:6px 12px"></button>
+  <div id="coBox" style="display:none;margin-top:8px;padding:8px;background:aliceblue;border:2px solid royalblue;border-radius:8px">
+    <canvas id="cc" width="160" height="160" style="border:2px solid royalblue;background:white;cursor:crosshair;touch-action:none"></canvas><br>
+    <input id="coh" type="range" min="0" max="360" value="0" style="width:110px">
+    <button id="coSv" style="background:orange;color:white;font-weight:bold;font-size:13px;padding:5px 10px"></button>
+  </div>
+  <div id="aucB" style="display:none;margin-top:8px;padding:8px;background:ivory;border:2px solid orange;border-radius:8px;font-size:14px">
+    <div id="aucP" style="font-weight:bold;color:purple"></div>
+    <div id="aucT" style="font-weight:bold;color:crimson;margin:4px 0"></div>
+    <button id="bidB" style="background:crimson;color:white;font-weight:bold;font-size:14px;padding:5px 12px"></button>
+  </div>
+  <div id="oms" style="color:darkorange;font-weight:bold;margin-top:5px;font-size:14px"></div>
+</div>
+<script>
+const x = c.getContext('2d'), px = pc.getContext('2d'), tx2 = tc.getContext('2d'), cx3 = cc.getContext('2d');
+const SZ = ['8', '12', '16', '32'];
+let B = Array.from({length: 8}, () => Array(8).fill(''));
+let CB = Array.from({length: 16}, () => Array(16).fill(''));
+let tL = 0, bg = 0, bt = 0, ni = 0, lkd = 0, fmd = 0, pmd = 0, sel = 0, inT = 0, lvC = 0, rbH = 0;
+let ck1 = 0, ck2 = 0, ck3 = 0, isCr = 0, dnTd = 0, dnDy = 0, aucOn = 0, aucBid = 0;
+let mn = 100, hasPet = 0, gFrmEnd = 0, CARDS = [], crSt = 0, uH = [], rH = [], tl = 0;
+let txX = 60, txY = 60, txC = 'hsl(200,100%,50%)', ac = null;
+let zm2 = 1, gd = 1, lv1 = 1, lv2 = 1, mxG = 1, mxB = 2;
+let G = [], BG = [], FL = [], USED = [];
+let cx2 = 110, cy2 = 110, dogX = 80, dogY = 110, cstX = 0, pName = '', dotId = '';
+
+const ml = '523,659,784,659,587,698,880,698'.split(',');
+const bs2 = '131,196,131,196,147,220,147,220'.split(',');
+const pkM = '523,659,784,1047,1047,988,784,659'.split(',');
+
+const w0 = ['PEN','ERASER','FILL','PICKER','TO BAG','SELL NOW','CLEAR','PRICE+','SPEED+','SHOP SLOT','BAG SLOT','SIZE UP','SOLD!','MOVED!','FULL!','TUTORIAL','SKIP / START','FRIENDS','MENU','LIST','VISIT','BACK','ADD','NAME','1.Click MY CODE & send.<br>2.Paste & click VISIT.<br>*If unable click CANT DO IT!','MY CODE(COPIED)','CANT DO IT(RANDOM)','VISIT','LIKE!(+$30)','NEXT','BACK','LIKED!+$30','MOVED!','WALK(WASD)','DRAW:WASD | Move | Click art to switch','ENTER NAME','CREATOR','DONATE','DONATE PANEL','Enter amount to send:','SEND DONATION','AUCTION (3P)','BID +$100','CO-OP DRAW','SAVE TO BAG'];
+const w1 = ['ペン','消しゴム','塗りつぶし','スポイト','バッグへ','今すぐ売る','全消し','価格アップ','スピードUP','店枠+1','バッグ+1','サイズ拡大','売れた!','移動した!','いっぱい!','きゅートリアル','スキップ / 開始','フレンド','メニュー','一覧','訪問','戻る','追加','名前','1.「コードコピー」で相手に送る。<br>2.貼り付けて「訪問」を押す。<br>*送れがい済ましたらは「できない」を押してね!','コードコピー(完了)','できない(ランダム)','訪問','いいね!(+$30)','次へ','戻る','いいね済!+$30','移動した!','歩く(WASD)','描く:WASD | 移動 | 絵をクリックで切替','名前を入力','創造者','寄付','寄付パネル','送る金額を入力:','寄付を送る','オークション(3人)','入札 +$100','一緒にお絵描き','バッグに保存'];
+const tx = i => (tL ? w1 : w0)[i];
+const RN = ['SORA', 'YUT', 'HARU', 'LUNA', 'KAI'];
+
+const gCol = () => `hsl(${ch.value},${cs.value}%,${cl2.value}%)`;
+const uCol = () => { pv.style.background = gCol(); };
+ch.oninput = cs.oninput = cl2.oninput = uCol;
+
+setInterval(() => {
+  rbH = (rbH + 20) % 360;
+  crB.style.color = `hsl(${rbH},95%,45%)`;
+}, 60);
+
+const mkDotId = () => {
+  const cs2 = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let id2 = '';
+  do {
+    id2 = '';
+    for (let i2 = 0; i2 < 10; i2++) id2 += cs2.charAt(Math.floor(Math.random() * cs2.length));
+  } while (USED.includes(id2) || id2 === '2700000AAAAA');
+  USED.push(id2);
+  return id2;
+};
+
+const dwT = () => {
+  tx2.fillStyle = 'white';
+  tx2.fillRect(0, 0, 160, 160);
+  tx2.strokeStyle = 'lightgray';
+  for (let i = 0; i <= 5; i++) {
+    tx2.beginPath(); tx2.moveTo(i * 32, 0); tx2.lineTo(i * 32, 160);
+    tx2.moveTo(0, i * 32); tx2.lineTo(160, i * 32); tx2.stroke();
+  }
+  tx2.fillStyle = txC;
+  tx2.fillRect(txX, txY, 32, 32);
+  hb.innerHTML = tL
+    ? `<b>チュートリアル</b><br>${ck1 ? '<span style="color:green">✅</span>' : '⬜'}1. 下のスライダーで色変更<br>${ck2 ? '<span style="color:green">✅</span>' : '⬜'}2. 枠内をクリック<br>${ck3 ? '<span style="color:green">✅</span>' : '⬜'}3. WASDで移動`
+    : `<b>Try left box!</b><br>${ck1 ? '<span style="color:green">✅</span>' : '⬜'}1.Color<br>${ck2 ? '<span style="color:green">✅</span>' : '⬜'}2.Click<br>${ck3 ? '<span style="color:green">✅</span>' : '⬜'}3.WASD`;
+};
+
+tch.oninput = () => { txC = `hsl(${tch.value},100%,50%)`; ck1 = 1; dwT(); };
+tc.onclick = e2 => {
+  const rc = tc.getBoundingClientRect();
+  txX = Math.floor((e2.clientX - rc.left) / 32) * 32;
+  txY = Math.floor((e2.clientY - rc.top) / 32) * 32;
+  ck2 = 1; dwT();
+};
+
+const sv = () => {
+  const dataStr = JSON.stringify({ mn, lv1, lv2, lvC, mxG, mxB, G, BG, B, FL, sel, pName, dotId, USED, isCr, dnTd, dnDy, hasPet, gFrmEnd, CARDS });
+  try { window.name = dataStr; } catch (e) {}
+  try { localStorage.setItem('DOT_YUNIVERSE_SAVE', dataStr); } catch (e) {}
+};
+
+const getSaveData = () => {
+  try {
+    const ls = localStorage.getItem('DOT_YUNIVERSE_SAVE');
+    if (ls && ls.startsWith('{')) return JSON.parse(ls);
+  } catch (e) {}
+  try {
+    if (window.name && window.name.startsWith('{')) return JSON.parse(window.name);
+  } catch (e) {}
+  return null;
+};
+
+const ld = () => {
+  const d2 = getSaveData();
+  if (!d2) return;
+  mn = d2.mn != null ? d2.mn : 100;
+  lv1 = d2.lv1 || 1; lv2 = d2.lv2 || 1; lvC = d2.lvC || 0;
+  mxG = d2.mxG || 1; mxB = d2.mxB || 2;
+  G = d2.G || []; BG = d2.BG || []; FL = d2.FL || []; USED = d2.USED || [];
+  sel = d2.sel || 0; isCr = d2.isCr || 0; dnTd = d2.dnTd || 0; dnDy = d2.dnDy || 0;
+  hasPet = d2.hasPet || 0; gFrmEnd = d2.gFrmEnd || 0; CARDS = d2.CARDS || [];
+  if (d2.pName) pName = d2.pName;
+  if (d2.dotId) dotId = d2.dotId;
+  if (d2.B) B = d2.B;
+  if (dotId === '2700000AAAAA') isCr = 1;
+  pInf.innerText = pName; dId.innerText = dotId;
+  uCol(); usH(); dw(); sv();
+};
+
+b0.onclick = () => sl(1);
+b1.onclick = () => sl(0);
+
+cpId.onclick = () => {
+  if (navigator.clipboard) navigator.clipboard.writeText(dotId);
+  cpId.innerText = 'OK!';
+  setTimeout(() => cpId.innerText = 'COPY', 1000);
+};
+
+const cVal = item => {
+  const a2 = Array.isArray(item) ? item : item.art;
+  const isG = item && !Array.isArray(item) && item.gold;
+  let cnt = 0;
+  const st2 = new Set();
+  a2.forEach(r => r.forEach(v => { if (v) { cnt++; st2.add(v); } }));
+  if (cnt === 0) return 0;
+  const base = Math.floor((cnt * 3 + st2.size * 12) * lv1);
+  return isG ? Math.floor(base * 1.5) : base;
+};
+
+const usH = () => {
+  document.getElementById('mn').innerText = isCr ? '∞' : Math.floor(mn);
+  u1.innerText = tx(7) + `Lv${lv1} ($${lv1 * 40})`;
+  u2.innerText = tx(8) + `Lv${lv2} ($${lv2 * 60})`;
+  u3.innerText = tx(9) + (mxG >= 10 ? '(MAX)' : ` ($${mxG * 100})`);
+  u4.innerText = tx(10) + (mxB >= 15 ? '(MAX)' : ` ($${mxB * 60})`);
+  u5.innerText = tx(11) + (SZ[lvC] + `x${SZ[lvC]}` + (lvC >= 3 ? '(MAX)' : ` ($${(lvC + 1) * 120})`));
+  incRate.innerText = isCr ? '(+∞/s)' : `(+$${G.reduce((s, g) => s + cVal(g), 0)}/s)`;
+  petSt.innerText = hasPet ? (tL ? '🐶ペット同行中(速度2倍)' : '🐶Pet(2x)') : '';
+  if (hasPet) {
+    buyPet.innerText = tL ? '購入済 (永久効果)' : 'OWNED';
+    buyPet.disabled = true; buyPet.style.opacity = '0.6';
+  } else {
+    buyPet.innerText = '$500';
+    buyPet.disabled = false; buyPet.style.opacity = '1';
+  }
+  const rem = Math.max(0, Math.ceil((gFrmEnd - Date.now()) / 1000));
+  if (rem > 0) {
+    buyFrm.innerText = tL ? `発動中 (${Math.floor(rem / 60)}分${rem % 60}秒)` : `ACTIVE (${rem}s)`;
+    buyFrm.disabled = true; buyFrm.style.opacity = '0.7';
+  } else {
+    buyFrm.innerText = '$1,000';
+    buyFrm.disabled = false; buyFrm.style.opacity = '1';
+  }
+};
+  gachaRes.style.borderColor = pick.r === 'SAR' ? 'crimson' : 'gold';
+  gachaRes.style.background = pick.r === 'SAR' ? '#222' : 'aliceblue';
+  gachaRes.style.color = pick.r === 'SAR' ? 'gold' : 'darkslategray';
+  gachaRes.innerHTML = '<div style="font-weight:bold;font-size:18px;color:' + (pick.r === 'SAR' ? '#ff1744' : pick.col) + '">[' + pick.r + '] ' + (tL ? pick.nm : pick.en) + '</div><canvas id="gCv" width="64" height="64" style="margin:6px;border:2px solid gold;border-radius:6px"></canvas><div style="font-size:13px;font-weight:bold">' + (pick.val > 0 ? (tL ? '売却価格: $' + pick.val.toLocaleString() : 'Sell: $' + pick.val.toLocaleString()) : (tL ? '鑑賞用カード' : 'Collection Only')) + '</div>';
+  drawCardArt(document.getElementById('gCv'), pick);
+  spMsg.style.color = 'deeppink';
+  spMsg.innerText = pick.r === 'SAR' ? (tL ? '🐉 超激レア！SAR「黒龍」を引き当てました！！' : '🐉 ULTRA RARE! SAR BLACK DRAGON!!') : (tL ? 'カードを入手しました！' : 'Got a Dot Card!');
+};
+
+const rCards = () => {
+  colList.innerHTML = '';
+  if (!CARDS.length) {
+    colList.innerHTML = '<div style="color:gray;font-size:13px">' + (tL ? 'まだカードを持っていません' : 'No cards yet') + '</div>';
+    return;
+  }
+  CARDS.forEach((cd, ix) => {
+    const box = document.createElement('div');
+    box.style.cssText = 'border:2px solid ' + (cd.r === 'SAR' ? 'crimson' : cd.col) + ';border-radius:10px;padding:6px;background:' + (cd.r === 'SAR' ? '#1a1a2e' : 'white') + ';color:' + (cd.r === 'SAR' ? 'gold' : 'darkslategray') + ';width:105px;text-align:center';
+    const badge = document.createElement('div');
+    badge.innerText = cd.r;
+    badge.style.cssText = 'font-weight:bold;font-size:12px;color:' + (cd.r === 'SAR' ? '#ff5252' : cd.col);
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = 64;
+    cv.style.cssText = 'border:1px solid lightgray;margin:3px 0;border-radius:4px';
+    drawCardArt(cv, cd);
+    const title = document.createElement('div');
+    title.innerText = tL ? cd.nm : cd.en;
+    title.style.cssText = 'font-size:11px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+    box.appendChild(badge); box.appendChild(cv); box.appendChild(title);
+    if (cd.val > 0) {
+      const sBtn = document.createElement('button');
+      sBtn.innerText = tL ? '売る $' + (cd.val >= 1000000 ? '100万' : cd.val) : 'SELL $' + cd.val;
+      sBtn.style.cssText = 'margin-top:4px;font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-weight:bold';
+      sBtn.onclick = () => {
+        const sold = CARDS.splice(ix, 1)[0];
+        if (!isCr) mn += sold.val;
+        usH(); sv(); rCards(); tn(1047, 'triangle', 0.15, 0.06);
+        spMsg.style.color = 'seagreen';
+        spMsg.innerText = tL ? '💰 ' + sold.nm + ' を $' + sold.val.toLocaleString() + ' で売却しました！' : '💰 Sold for $' + sold.val.toLocaleString() + '!';
+      };
+      box.appendChild(sBtn);
+    } else {
+      const vTag = document.createElement('div');
+      vTag.innerText = tL ? '鑑賞用' : 'View Only';
+      vTag.style.cssText = 'margin-top:4px;font-size:10px;color:gray';
+      box.appendChild(vTag);
+    }
+    colList.appendChild(box);
+  });
+};
+
+db.onclick = () => {
+  edV.style.display = pkV.style.display = frV.style.display = spV.style.display = 'none';
+  dnV.style.display = 'block'; dnId.value = ''; dnAmtB.style.display = 'none';
+  dnRes.innerText = ''; dnCodeBox.style.display = 'none'; dnRcvRes.innerText = '';
+};
+dnId.oninput = () => {
+  dnAmtB.style.display = dnId.value.trim().length === 10 ? 'block' : 'none';
+  dnRes.innerText = ''; dnCodeBox.style.display = 'none';
+};
+dnGo.onclick = () => {
+  const td = new Date().getDate();
+  if (dnDy !== td) { dnDy = td; dnTd = 0; }
+  const v3 = Math.floor(Number(dnAmt.value) || 0);
+  if (v3 <= 0) return;
+  if (!isCr && (dnTd + v3 > 1000000 || mn < v3)) {
+    dnRes.innerText = tL ? '1日 $1,000,000までお金不足！' : 'Max $1M/day or NO money!';
+    return;
+  }
+  if (!isCr) { mn -= v3; dnTd += v3; }
+  usH(); sv(); tn(1047, 'triangle', 0.2, 0.06);
+  const tid = dnId.value.toUpperCase();
+  dnRes.innerText = tL ? '✅ ID:' + tid + ' に $' + v3 + ' 送金しました！' : '✅ Sent $' + v3 + ' to ID:' + tid + '!';
+  const gCode = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
+  dnGiftOut.value = gCode; dnCodeBox.style.display = 'block';
+};
+cpGift.onclick = () => {
+  if (navigator.clipboard) navigator.clipboard.writeText(dnGiftOut.value);
+  cpGift.innerText = 'COPIED!';
+  setTimeout(() => cpGift.innerText = 'COPY GIFT CODE', 1200);
+};
+dnRcvBtn.onclick = () => {
+  try {
+    const raw = dnRcvIn.value.trim();
+    if (!raw.startsWith('GIFT-')) throw 0;
+    const data = JSON.parse(atob(raw.slice(5)));
+    if (data.to && data.to !== dotId) {
+      dnRcvRes.style.color = 'crimson';
+      dnRcvRes.innerText = tL ? '❌ このコードは ID:' + data.to + ' 宛てです' : '❌ This code is for ID:' + data.to;
+      return;
+    }
+    if (!isCr) mn += Number(data.amt) || 0;
+    usH(); sv(); tn(880, 'sine', 0.2, 0.08);
+    dnRcvRes.style.color = 'seagreen';
+    dnRcvRes.innerText = tL ? '🎉 ' + data.from + ' から $' + data.amt + ' を受け取りました！' : '🎉 Received $' + data.amt + ' from ' + data.from + '!';
+    dnRcvIn.value = '';
+  } catch (e) {
+    dnRcvRes.style.color = 'crimson';
+    dnRcvRes.innerText = tL ? '❌ 無効なギフトコードです' : '❌ Invalid Gift Code';
+  }
+};
+bkD.onclick = () => { dnV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
+  gachaRes.style.borderColor = pick.r === 'SAR' ? 'crimson' : 'gold';
+  gachaRes.style.background = pick.r === 'SAR' ? '#222' : 'aliceblue';
+  gachaRes.style.color = pick.r === 'SAR' ? 'gold' : 'darkslategray';
+  gachaRes.innerHTML = '<div style="font-weight:bold;font-size:18px;color:' + (pick.r === 'SAR' ? '#ff1744' : pick.col) + '">[' + pick.r + '] ' + (tL ? pick.nm : pick.en) + '</div><canvas id="gCv" width="64" height="64" style="margin:6px;border:2px solid gold;border-radius:6px"></canvas><div style="font-size:13px;font-weight:bold">' + (pick.val > 0 ? (tL ? '売却価格: $' + pick.val.toLocaleString() : 'Sell: $' + pick.val.toLocaleString()) : (tL ? '鑑賞用カード' : 'Collection Only')) + '</div>';
+  drawCardArt(document.getElementById('gCv'), pick);
+  spMsg.style.color = 'deeppink';
+  spMsg.innerText = pick.r === 'SAR' ? (tL ? '🐉 超激レア！SAR「黒龍」を引き当てました！！' : '🐉 ULTRA RARE! SAR BLACK DRAGON!!') : (tL ? 'カードを入手しました！' : 'Got a Dot Card!');
+};
+
+const rCards = () => {
+  colList.innerHTML = '';
+  if (!CARDS.length) {
+    colList.innerHTML = '<div style="color:gray;font-size:13px">' + (tL ? 'まだカードを持っていません' : 'No cards yet') + '</div>';
+    return;
+  }
+  CARDS.forEach((cd, ix) => {
+    const box = document.createElement('div');
+    box.style.cssText = 'border:2px solid ' + (cd.r === 'SAR' ? 'crimson' : cd.col) + ';border-radius:10px;padding:6px;background:' + (cd.r === 'SAR' ? '#1a1a2e' : 'white') + ';color:' + (cd.r === 'SAR' ? 'gold' : 'darkslategray') + ';width:105px;text-align:center';
+    const badge = document.createElement('div');
+    badge.innerText = cd.r;
+    badge.style.cssText = 'font-weight:bold;font-size:12px;color:' + (cd.r === 'SAR' ? '#ff5252' : cd.col);
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = 64;
+    cv.style.cssText = 'border:1px solid lightgray;margin:3px 0;border-radius:4px';
+    drawCardArt(cv, cd);
+    const title = document.createElement('div');
+    title.innerText = tL ? cd.nm : cd.en;
+    title.style.cssText = 'font-size:11px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+    box.appendChild(badge); box.appendChild(cv); box.appendChild(title);
+    if (cd.val > 0) {
+      const sBtn = document.createElement('button');
+      sBtn.innerText = tL ? '売る $' + (cd.val >= 1000000 ? '100万' : cd.val) : 'SELL $' + cd.val;
+      sBtn.style.cssText = 'margin-top:4px;font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-weight:bold';
+      sBtn.onclick = () => {
+        const sold = CARDS.splice(ix, 1)[0];
+        if (!isCr) mn += sold.val;
+        usH(); sv(); rCards(); tn(1047, 'triangle', 0.15, 0.06);
+        spMsg.style.color = 'seagreen';
+        spMsg.innerText = tL ? '💰 ' + sold.nm + ' を $' + sold.val.toLocaleString() + ' で売却しました！' : '💰 Sold for $' + sold.val.toLocaleString() + '!';
+      };
+      box.appendChild(sBtn);
+    } else {
+      const vTag = document.createElement('div');
+      vTag.innerText = tL ? '鑑賞用' : 'View Only';
+      vTag.style.cssText = 'margin-top:4px;font-size:10px;color:gray';
+      box.appendChild(vTag);
+    }
+    colList.appendChild(box);
+  });
+};
+
+db.onclick = () => {
+  edV.style.display = pkV.style.display = frV.style.display = spV.style.display = 'none';
+  dnV.style.display = 'block'; dnId.value = ''; dnAmtB.style.display = 'none';
+  dnRes.innerText = ''; dnCodeBox.style.display = 'none'; dnRcvRes.innerText = '';
+};
+dnId.oninput = () => {
+  dnAmtB.style.display = dnId.value.trim().length === 10 ? 'block' : 'none';
+  dnRes.innerText = ''; dnCodeBox.style.display = 'none';
+};
+dnGo.onclick = () => {
+  const td = new Date().getDate();
+  if (dnDy !== td) { dnDy = td; dnTd = 0; }
+  const v3 = Math.floor(Number(dnAmt.value) || 0);
+  if (v3 <= 0) return;
+  if (!isCr && (dnTd + v3 > 1000000 || mn < v3)) {
+    dnRes.innerText = tL ? '1日 $1,000,000までお金不足！' : 'Max $1M/day or NO money!';
+    return;
+  }
+  if (!isCr) { mn -= v3; dnTd += v3; }
+  usH(); sv(); tn(1047, 'triangle', 0.2, 0.06);
+  const tid = dnId.value.toUpperCase();
+  dnRes.innerText = tL ? '✅ ID:' + tid + ' に $' + v3 + ' 送金しました！' : '✅ Sent $' + v3 + ' to ID:' + tid + '!';
+  const gCode = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
+  dnGiftOut.value = gCode; dnCodeBox.style.display = 'block';
+};
+cpGift.onclick = () => {
+  if (navigator.clipboard) navigator.clipboard.writeText(dnGiftOut.value);
+  cpGift.innerText = 'COPIED!';
+  setTimeout(() => cpGift.innerText = 'COPY GIFT CODE', 1200);
+};
+dnRcvBtn.onclick = () => {
+  try {
+    const raw = dnRcvIn.value.trim();
+    if (!raw.startsWith('GIFT-')) throw 0;
+    const data = JSON.parse(atob(raw.slice(5)));
+    if (data.to && data.to !== dotId) {
+      dnRcvRes.style.color = 'crimson';
+      dnRcvRes.innerText = tL ? '❌ このコードは ID:' + data.to + ' 宛てです' : '❌ This code is for ID:' + data.to;
+      return;
+    }
+    if (!isCr) mn += Number(data.amt) || 0;
+    usH(); sv(); tn(880, 'sine', 0.2, 0.08);
+    dnRcvRes.style.color = 'seagreen';
+    dnRcvRes.innerText = tL ? '🎉 ' + data.from + ' から $' + data.amt + ' を受け取りました！' : '🎉 Received $' + data.amt + ' from ' + data.from + '!';
+    dnRcvIn.value = '';
+  } catch (e) {
+    dnRcvRes.style.color = 'crimson';
+    dnRcvRes.innerText = tL ? '❌ 無効なギフトコードです' : '❌ Invalid Gift Code';
+  }
+};
+bkD.onclick = () => { dnV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
+const rGL = () => {
+  bgl.innerHTML = '<b>' + (tL ? '🎒 バッグ' : '🎒 BAG') + ' (' + BG.length + '/' + mxB + '):</b>';
+  BG.forEach((g2, ix) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'border:2px solid orange;border-radius:8px;padding:4px;background:ivory;text-align:center';
+    const n2 = g2.length, st3 = 40 / n2;
+    const cv2 = document.createElement('canvas'); cv2.width = cv2.height = 40;
+    const cx = cv2.getContext('2d');
+    g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
+    const btn = document.createElement('button');
+    btn.innerText = tL ? '店へ出品' : 'TO SHOP';
+    btn.style.cssText = 'display:block;font-size:11px;background:orange;color:white;border:none;border-radius:4px;padding:2px 6px;margin-top:2px;cursor:pointer';
+    btn.onclick = () => {
+      if (G.length >= mxG) { ms.innerText = tx(14); return; }
+      const isG = Date.now() < gFrmEnd ? 1 : 0;
+      G.push({ art: BG.splice(ix, 1)[0], gold: isG });
+      rGL(); usH(); sv(); ms.innerText = tx(13); tn(784, 'sine', 0.08, 0.04);
+    };
+    card.appendChild(cv2); card.appendChild(btn); bgl.appendChild(card);
+  });
+
+  gl.innerHTML = '<b>🏪 ' + (tL ? 'ショップ (自動販売中)' : 'SHOP (Auto-Selling)') + ' (' + G.length + '/' + mxG + '):</b>';
+  G.forEach((item, ix) => {
+    const g2 = Array.isArray(item) ? item : item.art;
+    const isG = item && !Array.isArray(item) && item.gold;
+    const card = document.createElement('div');
+    card.style.cssText = isG
+      ? 'border:3px solid gold;box-shadow:0 0 10px gold;border-radius:8px;padding:5px;background:lemonchiffon;text-align:center'
+      : 'border:2px solid deepskyblue;border-radius:8px;padding:5px;background:aliceblue;text-align:center';
+    const n2 = g2.length, st3 = 44 / n2;
+    const cv2 = document.createElement('canvas'); cv2.width = cv2.height = 44;
+    const cx = cv2.getContext('2d');
+    g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
+    const val = cVal(item);
+    const prTag = document.createElement('div');
+    prTag.innerText = (isG ? '✨' : '') + '$' + val;
+    prTag.style.cssText = 'font-weight:bold;color:darkorange;font-size:13px;margin:2px 0';
+    const sBtn = document.createElement('button');
+    sBtn.innerText = tL ? '今すぐ売る' : 'SELL';
+    sBtn.style.cssText = 'font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:2px 6px;margin-right:3px;cursor:pointer';
+    sBtn.onclick = () => {
+      const art = G.splice(ix, 1)[0];
+      const p = cVal(art);
+      if (!isCr) mn += p;
+      rGL(); usH(); sv(); ms.innerText = tx(12) + '+$' + (isCr ? '∞' : p); tn(1047, 'triangle', 0.12, 0.06);
+    };
+    const bBtn = document.createElement('button');
+    bBtn.innerText = tL ? '戻す' : 'BAG';
+    bBtn.style.cssText = 'font-size:11px;background:gray;color:white;border:none;border-radius:4px;padding:2px 5px;cursor:pointer';
+    bBtn.onclick = () => {
+      if (BG.length >= mxB) { ms.innerText = tx(14); return; }
+      BG.push(g2); G.splice(ix, 1); rGL(); usH(); sv(); tn(659, 'sine', 0.07, 0.04);
+    };
+    card.appendChild(cv2); card.appendChild(prTag); card.appendChild(sBtn); card.appendChild(bBtn); gl.appendChild(card);
+  });
+};
+const rFL = () => {
+  fls.innerHTML = tx(27);
+  FL.forEach((f2, ix) => {
+    const dv = document.createElement('div');
+    dv.innerHTML = f2 + ' <button onclick="FL.splice(' + ix + ',1);rFL();sv()">X</button>';
+    fls.appendChild(dv);
+  });
+};
+
+const tn = (f, tp, du, vl) => {
+  if (!f) return;
+  if (!ac) ac = new AudioContext();
+  ac.resume();
+  const o2 = ac.createOscillator(), g2 = ac.createGain();
+  o2.type = tp; o2.frequency.value = f;
+  g2.gain.setValueAtTime(vl, ac.currentTime);
+  g2.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + du);
+  o2.connect(g2); g2.connect(ac.destination); o2.start(); o2.stop(ac.currentTime + du);
+};
+
+const pl = () => {
+  if (!bg) return;
+  const n3 = ni % 8;
+  if (fmd) {
+    tn(pkM[n3], 'sine', 0.45, 0.05); tn(bs2[n3], 'triangle', 0.5, 0.04);
+    ni++; bt = setTimeout(pl, 260);
+  } else {
+    tn(ml[n3], 'triangle', 0.22, 0.05); tn(bs2[n3], 'triangle', 0.25, 0.08);
+    ni++; bt = setTimeout(pl, 180);
+  }
+};
+
+uCol(); usH(); dw();
+</script>
+</body>
+</html>
