@@ -7,10 +7,8 @@
 </head>
 <body style="background:aliceblue;color:darkslategray;text-align:center;font-family:sans-serif;overflow-x:hidden;font-size:16px;margin:0;padding:10px">
 <div style="position:relative">
-  <div style="position:absolute;left:10px;top:6px">
-    <button id="fb" style="display:none;background:mediumpurple;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer"></button>
-    <button id="db" style="display:none;background:gold;color:black;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer"></button>
-    <button id="sb" style="display:none;background:deeppink;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer"></button>
+  <div id="topBtns" style="position:absolute;left:10px;top:6px">
+    <button id="sb" style="display:none;background:deeppink;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer;margin-right:4px"></button>
   </div>
   <h1 style="margin:6px;color:royalblue;font-size:32px">DOT YUNIVERSE</h1>
 </div>
@@ -39,7 +37,6 @@
     <button id="go" style="background:royalblue;color:white;font-weight:bold;padding:12px 32px;font-size:20px;border-radius:10px;cursor:pointer"></button>
   </div>
 </div>
-
 <div id="m" style="display:none">
   <div style="font-size:15px;margin:4px">
     <b id="crB"></b> <b id="pInf"></b> [ID:<span id="dId" style="color:royalblue;font-weight:bold"></span> <button id="cpId" style="font-size:12px;padding:2px 8px;cursor:pointer">COPY</button>] <span id="petSt" style="color:saddlebrown;font-weight:bold"></span>
@@ -47,8 +44,7 @@
   <div style="background:white;display:inline-block;padding:6px 18px;border-radius:20px;border:2px solid orange;margin:4px">
     <span style="color:darkorange;font-weight:bold;font-size:22px">$<b id="mn">100</b></span>
     <span id="incRate" style="color:seagreen;font-size:14px;font-weight:bold;margin-left:8px">(+$0/s)</span>
-    <button id="mb" style="background:gold;font-weight:bold;font-size:14px;padding:4px 10px;border-radius:6px;margin-left:8px;cursor:pointer">BGM:OFF</button>
-    <button id="vw" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:4px 10px;border-radius:6px;cursor:pointer"></button>
+    <button id="vw" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:4px 10px;border-radius:6px;margin-left:8px;cursor:pointer"></button>
   </div>
   <div id="edV">
     <div style="margin:6px">
@@ -72,7 +68,7 @@
         S:<input id="cs" type="range" min="0" max="100" value="100" style="width:110px"><br>
         L:<input id="cl2" type="range" min="0" max="100" value="50" style="width:110px"><br>
         <button id="bgB" style="background:orange;color:white;font-weight:bold;width:100%;margin-top:8px;padding:7px;font-size:14px;border-radius:6px;cursor:pointer"></button><br>
-        <button id="sl" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:6px;padding:7px;font-size:14px;border-radius:6px;cursor:pointer"></button>
+        <button id="slBtn" style="background:deepskyblue;color:white;font-weight:bold;width:100%;margin-top:6px;padding:7px;font-size:14px;border-radius:6px;cursor:pointer"></button>
         <div id="ms" style="color:crimson;font-weight:bold;margin-top:6px;font-size:13px"></div>
       </div>
     </div>
@@ -95,6 +91,7 @@
     </div>
   </div>
 </div>
+
 <div id="spV" style="display:none;max-width:680px;margin:14px auto;background:white;padding:18px;border:3px solid deeppink;border-radius:16px">
   <div style="font-weight:bold;color:deeppink;font-size:22px;margin-bottom:12px" id="spT"></div>
   <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
@@ -124,7 +121,394 @@
   <div id="colList" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-height:220px;overflow-y:auto;padding:4px"></div>
   <button id="bkS" style="margin-top:14px;font-size:15px;padding:7px 22px;border-radius:8px;cursor:pointer"></button>
 </div>
+<script>
+const x = c.getContext('2d'), px = pc.getContext('2d'), tx2 = tc.getContext('2d');
+const SZ = ['8', '12', '16', '32'];
+let B = Array.from({length: 8}, () => Array(8).fill(''));
+let tL = 0, lvC = 0, rbH = 0, ck1 = 0, ck2 = 0, ck3 = 0, isCr = 0, crSt = 0, inT = 0, pmd = 0;
+let mn = 100, hasPet = 0, gFrmEnd = 0, CARDS = [], uH = [], rH = [], tl = 0;
+let txX = 60, txY = 60, txC = 'hsl(200,100%,50%)', zm2 = 1, gd = 1, lv1 = 1, lv2 = 1, mxG = 1, mxB = 2;
+let G = [], BG = [], FL = [], USED = [], cx2 = 110, cy2 = 110, dogX = 80, dogY = 110, cstX = 0, pName = '', dotId = '';
 
+const w0 = ['PEN','ERASER','FILL','PICKER','TO BAG','SELL NOW','CLEAR','PRICE+','SPEED+','SHOP SLOT','BAG SLOT','SIZE UP','SOLD!','MOVED!','FULL!','TUTORIAL','SKIP / START','ENTER NAME','CREATOR','WALK(WASD)','DRAW:WASD | Move'];
+const w1 = ['ペン','消しゴム','塗りつぶし','スポイト','バッグへ','今すぐ売る','全消し','価格アップ','スピードUP','店枠+1','バッグ+1','サイズ拡大','売れた!','移動した!','いっぱい!','チュートリアル','スキップ / 開始','名前を入力','創造者','歩く(WASD)','描く:WASD | 移動'];
+const tx = i => (tL ? w1 : w0)[i];
+
+const gCol = () => `hsl(${ch.value},${cs.value}%,${cl2.value}%)`;
+const uCol = () => { pv.style.background = gCol(); };
+ch.oninput = cs.oninput = cl2.oninput = uCol;
+setInterval(() => { rbH = (rbH + 20) % 360; crB.style.color = `hsl(${rbH},95%,45%)`; }, 60);
+
+const mkDotId = () => {
+  const cs2 = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let id2 = '';
+  do {
+    id2 = '';
+    for (let i = 0; i < 10; i++) id2 += cs2.charAt(Math.floor(Math.random() * cs2.length));
+  } while (USED.includes(id2));
+  USED.push(id2);
+  return id2;
+};
+
+const dwT = () => {
+  tx2.fillStyle = 'white'; tx2.fillRect(0, 0, 160, 160); tx2.strokeStyle = 'lightgray';
+  for (let i = 0; i <= 5; i++) {
+    tx2.beginPath(); tx2.moveTo(i * 32, 0); tx2.lineTo(i * 32, 160);
+    tx2.moveTo(0, i * 32); tx2.lineTo(160, i * 32); tx2.stroke();
+  }
+  tx2.fillStyle = txC; tx2.fillRect(txX, txY, 32, 32);
+  hb.innerHTML = tL
+    ? `<b>チュートリアル</b><br>${ck1 ? '✅' : '⬜'}1. 下のスライダーで色変更<br>${ck2 ? '✅' : '⬜'}2. 枠内をクリック<br>${ck3 ? '✅' : '⬜'}3. WASDで移動`
+    : `<b>Try left box!</b><br>${ck1 ? '✅' : '⬜'}1.Color<br>${ck2 ? '✅' : '⬜'}2.Click<br>${ck3 ? '✅' : '⬜'}3.WASD`;
+};
+tch.oninput = () => { txC = `hsl(${tch.value},100%,50%)`; ck1 = 1; dwT(); };
+tc.onclick = e => {
+  const rc = tc.getBoundingClientRect();
+  txX = Math.floor((e.clientX - rc.left) / 32) * 32;
+  txY = Math.floor((e.clientY - rc.top) / 32) * 32;
+  ck2 = 1; dwT();
+};
+
+const sv = () => {
+  const s = JSON.stringify({ mn, lv1, lv2, lvC, mxG, mxB, G, BG, B, FL, pName, dotId, USED, isCr, hasPet, gFrmEnd, CARDS });
+  try { localStorage.setItem('DOT_YUNIVERSE_SAVE', s); } catch (e) {}
+  try { window.name = s; } catch (e) {}
+};
+const getSave = () => {
+  try { const s = localStorage.getItem('DOT_YUNIVERSE_SAVE'); if (s && s.startsWith('{')) return JSON.parse(s); } catch (e) {}
+  try { if (window.name && window.name.startsWith('{')) return JSON.parse(window.name); } catch (e) {}
+  return null;
+};
+
+const cVal = item => {
+  const a2 = Array.isArray(item) ? item : item.art;
+  const isG = item && !Array.isArray(item) && item.gold;
+  let cnt = 0; const st2 = new Set();
+  a2.forEach(r => r.forEach(v => { if (v) { cnt++; st2.add(v); } }));
+  if (cnt === 0) return 0;
+  const base = Math.floor((cnt * 3 + st2.size * 12) * lv1);
+  return isG ? Math.floor(base * 1.5) : base;
+};
+
+const usH = () => {
+  document.getElementById('mn').innerText = isCr ? '∞' : Math.floor(mn);
+  u1.innerText = `${tx(7)}Lv${lv1} ($${lv1 * 40})`;
+  u2.innerText = `${tx(8)}Lv${lv2} ($${lv2 * 60})`;
+  u3.innerText = tx(9) + (mxG >= 10 ? '(MAX)' : ` ($${mxG * 100})`);
+  u4.innerText = tx(10) + (mxB >= 15 ? '(MAX)' : ` ($${mxB * 60})`);
+  u5.innerText = `${tx(11)}${SZ[lvC]}x${SZ[lvC]}` + (lvC >= 3 ? '(MAX)' : ` ($${(lvC + 1) * 120})`);
+  incRate.innerText = isCr ? '(+∞/s)' : `(+$${G.reduce((s, g) => s + cVal(g), 0)}/s)`;
+  petSt.innerText = hasPet ? (tL ? '🐶ペット同行中(速度2倍)' : '🐶Pet(2x)') : '';
+  if (hasPet) { buyPet.innerText = tL ? '購入済 (永久効果)' : 'OWNED'; buyPet.disabled = true; buyPet.style.opacity = '0.6'; }
+  else { buyPet.innerText = '$500'; buyPet.disabled = false; buyPet.style.opacity = '1'; }
+  const rem = Math.max(0, Math.ceil((gFrmEnd - Date.now()) / 1000));
+  if (rem > 0) { buyFrm.innerText = tL ? `発動中 (${Math.floor(rem / 60)}分${rem % 60}秒)` : `ACTIVE (${rem}s)`; buyFrm.disabled = true; buyFrm.style.opacity = '0.7'; }
+  else { buyFrm.innerText = '$1,000'; buyFrm.disabled = false; buyFrm.style.opacity = '1'; }
+};
+
+setInterval(() => {
+  if (Date.now() < gFrmEnd && G.length) {
+    let chg = 0;
+    G = G.map(it => { if (Array.isArray(it)) { chg = 1; return { art: it, gold: 1 }; } return it; });
+    if (chg) { rGL(); sv(); }
+  }
+  usH();
+  if (G.length) {
+    cstX += (6 + lv2 * 3) * (hasPet ? 2 : 1);
+    if (cstX >= 220 && cstX <= 260) {
+      const art = G.shift();
+      const pr = cVal(art);
+      if (!isCr) mn += pr;
+      rGL(); usH(); sv();
+      ms.innerText = `${tx(12)}+$${isCr ? '∞' : pr}`;
+    }
+    if (cstX >= 460) cstX = 0;
+    if (pmd) dwP();
+  }
+}, 200);
+const setLang = L => {
+  tL = L;
+  nmT.innerText = tx(17); crB.innerText = tx(18); ht.innerText = tx(15); go.innerText = tx(16);
+  t0.innerText = tx(0); t1.innerText = tx(1); t2.innerText = tx(2); t3.innerText = tx(3);
+  bgB.innerText = tx(4); slBtn.innerText = tx(5); cl.innerText = tx(6);
+  vw.innerText = tx(19); pkH.innerText = tx(20);
+  sb.innerText = tL ? '🌟 スーパーショップ' : '🌟 SUPER SHOP';
+  spT.innerText = tL ? '🌟 スーパーショップ 🌟' : '🌟 SUPER SHOP 🌟';
+  petT.innerText = tL ? 'ペット：犬' : 'Pet: Dog';
+  petD.innerText = tL ? 'お散歩についてくる！販売スピードが永久に2倍' : 'Follows you on walks! Permanently 2x speed';
+  frmT.innerText = tL ? '黄金の額縁' : 'Golden Frame';
+  frmD.innerText = tL ? '10分間キラキラの黄金額縁が付く（売るまで外れない・売値1.5倍）' : '10 mins shiny gold frame (stays until sold, 1.5x value)';
+  crdT.innerText = tL ? 'ドットカードパック' : 'Dot Card Pack';
+  crdD.innerText = tL ? 'N〜SAR(黒龍$100万)のリアルドット絵カード！E以上は売却可能' : 'Collect N~SAR cards! Sell E+ for cash';
+  colT.innerText = tL ? '📖 コレクション図鑑（E以上は売却可能）' : '📖 Card Collection (Sell E+)';
+  bkS.innerText = tL ? '戻る' : 'BACK';
+  buyCrd.innerText = '$300';
+  g.style.display = 'none';
+  const d2 = getSave();
+  if (d2 && d2.pName && d2.dotId) {
+    pName = d2.pName; dotId = d2.dotId; isCr = d2.isCr ? 1 : 0;
+    inT = 1; hlp.style.display = 'block'; dwT(); return;
+  }
+  nmV.style.display = 'block';
+};
+b0.onclick = () => setLang(1);
+b1.onclick = () => setLang(0);
+
+nmOk.onclick = () => {
+  const raw = pnm.value.trim();
+  if (crSt === 0 && raw === 'iuaou1024') { crSt = 1; pnm.value = ''; pnm.focus(); return; }
+  pName = (raw || 'USER').slice(0, 8); dotId = mkDotId(); isCr = crSt === 1 ? 1 : 0; crSt = 0;
+  sv(); nmV.style.display = 'none'; inT = 1; hlp.style.display = 'block'; dwT();
+};
+
+go.onclick = () => {
+  inT = 0; hlp.style.display = 'none'; m.style.display = 'block';
+  sb.style.display = 'inline';
+  const d2 = getSave();
+  if (d2) {
+    mn = d2.mn != null ? d2.mn : 100; lv1 = d2.lv1 || 1; lv2 = d2.lv2 || 1; lvC = d2.lvC || 0;
+    mxG = d2.mxG || 1; mxB = d2.mxB || 2; G = d2.G || []; BG = d2.BG || [];
+    if (d2.B) B = d2.B;
+    isCr = d2.isCr || 0; hasPet = d2.hasPet || 0; gFrmEnd = d2.gFrmEnd || 0; CARDS = d2.CARDS || [];
+  }
+  crB.style.display = isCr ? 'inline' : 'none';
+  pInf.innerText = pName; dId.innerText = dotId;
+  uCol(); usH(); dw(); rGL();
+};
+
+t0.onclick = () => tl = 0; t1.onclick = () => tl = 1; t2.onclick = () => tl = 2; t3.onclick = () => tl = 3;
+gr.onclick = () => { gd = !gd; dw(); };
+zm.onclick = () => { zm2 = zm2 === 1 ? 1.5 : zm2 === 1.5 ? 2 : 1; c.width = c.height = 300 * zm2; zm.innerText = `ZOOM:${zm2}x`; dw(); };
+const svH = () => { uH.push(B.map(r => r.slice())); if (uH.length > 30) uH.shift(); rH = []; };
+unB.onclick = () => { if (!uH.length) return; rH.push(B.map(r => r.slice())); B = uH.pop(); lvC = Math.max(0, SZ.indexOf(String(B.length))); dw(); sv(); };
+rdB.onclick = () => { if (!rH.length) return; uH.push(B.map(r => r.slice())); B = rH.pop(); lvC = Math.max(0, SZ.indexOf(String(B.length))); dw(); sv(); };
+cl.onclick = () => { svH(); const n2 = Number(SZ[lvC]); B = Array.from({length: n2}, () => Array(n2).fill('')); dw(); sv(); };
+
+const fl = (r, c2, tg, rp) => {
+  const n2 = B.length;
+  if (r < 0 || r >= n2 || c2 < 0 || c2 >= n2 || B[r][c2] !== tg || tg === rp) return;
+  B[r][c2] = rp; fl(r + 1, c2, tg, rp); fl(r - 1, c2, tg, rp); fl(r, c2 + 1, tg, rp); fl(r, c2 - 1, tg, rp);
+};
+const drw = (cx4, cy4) => {
+  const n2 = B.length, rc = c.getBoundingClientRect(), sz = (300 / n2) * zm2;
+  const c2 = Math.floor((cx4 - rc.left) / sz), r = Math.floor((cy4 - rc.top) / sz);
+  if (r < 0 || r >= n2 || c2 < 0 || c2 >= n2) return;
+  if (tl === 0) B[r][c2] = gCol();
+  if (tl === 1) B[r][c2] = '';
+  if (tl === 2) fl(r, c2, B[r][c2], gCol());
+  if (tl === 3 && B[r][c2]) {
+    const pt = B[r][c2].slice(4, -1).split(',');
+    ch.value = parseInt(pt); cs.value = parseInt(pt); cl2.value = parseInt(pt); uCol(); tl = 0;
+  }
+  dw(); sv();
+};
+let dn = 0;
+c.onpointerdown = e => { if (tl !== 3) svH(); dn = 1; c.setPointerCapture(e.pointerId); drw(e.clientX, e.clientY); };
+c.onpointermove = e => { if (dn) drw(e.clientX, e.clientY); };
+c.onpointerup = () => { dn = 0; };
+
+bgB.onclick = () => {
+  if (!cVal(B)) return;
+  if (BG.length >= mxB) { ms.innerText = tx(14); return; }
+  BG.push(B.map(r => r.slice())); svH(); const n2 = Number(SZ[lvC]);
+  B = Array.from({length: n2}, () => Array(n2).fill('')); rGL(); usH(); dw(); sv(); ms.innerText = tx(13);
+};
+slBtn.onclick = () => {
+  if (!cVal(B)) return;
+  if (G.length >= mxG) { ms.innerText = tx(14); return; }
+  G.push({ art: B.map(r => r.slice()), gold: Date.now() < gFrmEnd ? 1 : 0 }); svH(); const n2 = Number(SZ[lvC]);
+  B = Array.from({length: n2}, () => Array(n2).fill('')); rGL(); usH(); dw(); sv(); ms.innerText = tx(13);
+};
+
+u1.onclick = () => { if (isCr || mn >= lv1 * 40) { if (!isCr) mn -= lv1 * 40; lv1++; usH(); rGL(); sv(); } };
+u2.onclick = () => { if (isCr || mn >= lv2 * 60) { if (!isCr) mn -= lv2 * 60; lv2++; usH(); sv(); } };
+u3.onclick = () => { if (mxG < 10 && (isCr || mn >= mxG * 100)) { if (!isCr) mn -= mxG * 100; mxG++; rGL(); usH(); sv(); } };
+u4.onclick = () => { if (mxB < 15 && (isCr || mn >= mxB * 60)) { if (!isCr) mn -= mxB * 60; mxB++; rGL(); usH(); sv(); } };
+u5.onclick = () => {
+  if (lvC < 3 && (isCr || mn >= (lvC + 1) * 120)) {
+    if (!isCr) mn -= (lvC + 1) * 120; lvC++; const n2 = Number(SZ[lvC]);
+    B = Array.from({length: n2}, () => Array(n2).fill('')); uH = []; rH = []; usH(); dw(); sv();
+  }
+};
+rst.onclick = () => {
+  try { localStorage.removeItem('DOT_YUNIVERSE_SAVE'); } catch (e) {}
+  try { window.name = ''; } catch (e) {}
+  location.reload();
+};
+
+vw.onclick = () => { pmd = !pmd; edV.style.display = pmd ? 'none' : 'block'; pkV.style.display = pmd ? 'block' : 'none'; vw.innerText = pmd ? tx(20) : tx(19); if (pmd) dwP(); };
+const dwP = () => {
+  px.fillStyle = 'honeydew'; px.fillRect(0, 0, 460, 240);
+  if (G.length) { px.fillStyle = 'royalblue'; px.fillRect(cstX, 30, 20, 20); }
+  if (hasPet) {
+    dogX += (cx2 - 34 - dogX) * 0.25; dogY += (cy2 + 28 - dogY) * 0.25;
+    px.fillStyle = 'peru'; px.fillRect(dogX, dogY, 24, 16); px.fillRect(dogX + 16, dogY - 8, 12, 12);
+    px.fillStyle = 'saddlebrown'; px.fillRect(dogX + 14, dogY - 8, 5, 9); px.fillRect(dogX - 4, dogY - 2, 6, 4);
+    px.fillRect(dogX + 2, dogY + 16, 4, 6); px.fillRect(dogX + 18, dogY + 16, 4, 6);
+    px.fillStyle = 'black'; px.fillRect(dogX + 24, dogY - 5, 2, 2);
+  }
+  const first = G.length ? (Array.isArray(G) ? G : G.art) : B;
+  const st3 = 64 / first.length;
+  first.forEach((r, y) => r.forEach((v, z) => { if (v) { px.fillStyle = v; px.fillRect(cx2 + z * st3, cy2 + y * st3, st3, st3); } }));
+};
+onkeydown = e => {
+  const k = e.key.toLowerCase();
+  if (inT) {
+    if (k === 'w') txY = Math.max(0, txY - 32); if (k === 's') txY = Math.min(128, txY + 32);
+    if (k === 'a') txX = Math.max(0, txX - 32); if (k === 'd') txX = Math.min(128, txX + 32);
+    if ('wasd'.includes(k)) { ck3 = 1; dwT(); } return;
+  }
+  if (!pmd) return;
+  if (k === 'w') cy2 = Math.max(10, cy2 - 12); if (k === 's') cy2 = Math.min(165, cy2 + 12);
+  if (k === 'a') cx2 = Math.max(10, cx2 - 12); if (k === 'd') cx2 = Math.min(385, cx2 + 12);
+  dwP();
+};
+
+sb.onclick = () => { edV.style.display = pkV.style.display = 'none'; spV.style.display = 'block'; spMsg.innerText = ''; gachaRes.style.display = 'none'; rCards(); };
+bkS.onclick = () => { spV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
+
+buyPet.onclick = () => {
+  if (hasPet) return;
+  if (!isCr && mn < 500) { spMsg.innerText = tL ? 'お金が足りません！' : 'Not enough money!'; return; }
+  if (!isCr) mn -= 500;
+  hasPet = 1; usH(); sv(); spMsg.style.color = 'seagreen';
+  spMsg.innerText = tL ? '🐶 ペットの犬を購入しました！販売速度が2倍になります！' : '🐶 Adopted a Dog! Speed is 2x!';
+};
+
+buyFrm.onclick = () => {
+  if (Date.now() < gFrmEnd) return;
+  if (!isCr && mn < 1000) { spMsg.innerText = tL ? 'お金が足りません！' : 'Not enough money!'; return; }
+  if (!isCr) mn -= 1000;
+  gFrmEnd = Date.now() + 600000;
+  G = G.map(it => Array.isArray(it) ? { art: it, gold: 1 } : { art: it.art, gold: 1 });
+  rGL(); usH(); sv(); spMsg.style.color = 'darkorange';
+  spMsg.innerText = tL ? '✨ 黄金の額縁が10分間有効になりました！（売るまで外れません）' : '✨ Golden Frame active for 10 mins!';
+};
+const CARD_POOL = [
+  { r: 'N', nm: 'スライム', en: 'Slime', val: 0, col: '#888', c1: '#4fc3f7', c2: '#0288d1', pat: '00000000,00011000,00122100,01211210,12111121,12222221,01111110,00000000' },
+  { r: 'NR', nm: '森のキノコ', en: 'Forest Shroom', val: 0, col: '#2e7d32', c1: '#e53935', c2: '#ffe0b2', pat: '00111100,01121210,11111111,11211121,00222200,00211200,00222200,00000000' },
+  { r: 'R', nm: '炎の剣', en: 'Flame Sword', val: 0, col: '#1565c0', c1: '#ff7043', c2: '#ffd54f', pat: '00000011,00000121,00001210,00012100,01121000,00120000,01211000,12000000' },
+  { r: 'E', nm: '黄金の王冠', en: 'Golden Crown', val: 200, col: '#6a1b9a', c1: '#ffd700', c2: '#e91e63', pat: '00000000,10011001,11011011,11111111,12111121,11111111,01111110,00000000' },
+  { r: 'S', nm: 'クリスタルフェニックス', en: 'Crystal Phoenix', val: 800, col: '#00838f', c1: '#00e5ff', c2: '#ff4081', pat: '00011000,10122101,11211211,01122110,00111100,01211210,10100101,00000000' },
+  { r: 'SR', nm: '星屑のユニコーン', en: 'Stardust Unicorn', val: 2500, col: '#ef6c00', c1: '#f8bbd0', c2: '#ffeb3b', pat: '00000200,00002200,00111100,01121110,11111100,01111000,01001000,01001000' },
+  { r: 'SSR', nm: '銀河の守護神', en: 'Galaxy Guardian', val: 10000, col: '#d50000', c1: '#7c4dff', c2: '#00e676', pat: '00111100,01211210,11122111,12111121,01122110,00111100,01200210,11000011' },
+  { r: 'SAR', nm: '黒龍 (BLACK DRAGON)', en: 'SAR BLACK DRAGON', val: 1000000, col: '#111', c1: '#212121', c2: '#ff1744', pat: '11000011,12100121,01111110,11211211,11111111,01122110,10111101,10011001' }
+];
+
+const drawCardArt = (cv, cObj) => {
+  const cx = cv.getContext('2d');
+  cx.fillStyle = cObj.r === 'SAR' ? '#1a1a2e' : '#f8f9fa';
+  cx.fillRect(0, 0, 64, 64);
+  cObj.pat.split(',').forEach((r, y) => {
+    for (let z = 0; z < 8; z++) {
+      if (r[z] === '1' || r[z] === '2') {
+        cx.fillStyle = r[z] === '1' ? cObj.c1 : cObj.c2;
+        cx.fillRect(z * 8, y * 8, 8, 8);
+      }
+    }
+  });
+};
+
+buyCrd.onclick = () => {
+  if (!isCr && mn < 300) { spMsg.innerText = tL ? 'お金が足りません！' : 'Not enough money!'; return; }
+  if (!isCr) mn -= 300;
+  const rnd = Math.random() * 100;
+  const idx = rnd < 0.5 ? 7 : rnd < 2.5 ? 6 : rnd < 7 ? 5 : rnd < 15 ? 4 : rnd < 30 ? 3 : rnd < 52 ? 2 : rnd < 76 ? 1 : 0;
+  const pick = CARD_POOL[idx];
+  CARDS.push({ id: Date.now() + Math.random(), ...pick });
+  usH(); sv(); rCards();
+  gachaRes.style.display = 'block';
+  gachaRes.style.borderColor = pick.r === 'SAR' ? 'crimson' : 'gold';
+  gachaRes.style.background = pick.r === 'SAR' ? '#222' : 'aliceblue';
+  gachaRes.style.color = pick.r === 'SAR' ? 'gold' : 'darkslategray';
+  gachaRes.innerHTML = `<div style="font-weight:bold;font-size:18px;color:${pick.r === 'SAR' ? '#ff1744' : pick.col}">[${pick.r}] ${tL ? pick.nm : pick.en}</div><canvas id="gCv" width="64" height="64" style="margin:6px;border:2px solid gold;border-radius:6px"></canvas><div style="font-size:13px;font-weight:bold">${pick.val > 0 ? (tL ? '売却価格: $' + pick.val.toLocaleString() : 'Sell: $' + pick.val.toLocaleString()) : (tL ? '鑑賞用カード' : 'Collection Only')}</div>`;
+  drawCardArt(document.getElementById('gCv'), pick);
+  spMsg.style.color = 'deeppink';
+  spMsg.innerText = pick.r === 'SAR' ? (tL ? '🐉 超激レア！SAR「黒龍」を引き当てました！！' : '🐉 ULTRA RARE! SAR BLACK DRAGON!!') : (tL ? 'カードを入手しました！' : 'Got a Dot Card!');
+};
+
+const rCards = () => {
+  colList.innerHTML = '';
+  if (!CARDS.length) { colList.innerHTML = `<div style="color:gray;font-size:13px">${tL ? 'まだカードを持っていません' : 'No cards yet'}</div>`; return; }
+  CARDS.forEach((cd, ix) => {
+    const box = document.createElement('div');
+    box.style.cssText = `border:2px solid ${cd.r === 'SAR' ? 'crimson' : cd.col};border-radius:10px;padding:6px;background:${cd.r === 'SAR' ? '#1a1a2e' : 'white'};color:${cd.r === 'SAR' ? 'gold' : 'darkslategray'};width:105px;text-align:center`;
+    box.innerHTML = `<div style="font-weight:bold;font-size:12px;color:${cd.r === 'SAR' ? '#ff5252' : cd.col}">${cd.r}</div>`;
+    const cv = document.createElement('canvas'); cv.width = cv.height = 64; cv.style.cssText = 'border:1px solid lightgray;margin:3px 0;border-radius:4px';
+    drawCardArt(cv, cd); box.appendChild(cv);
+    const title = document.createElement('div'); title.innerText = tL ? cd.nm : cd.en; title.style.cssText = 'font-size:11px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+    box.appendChild(title);
+    if (cd.val > 0) {
+      const sBtn = document.createElement('button');
+      sBtn.innerText = tL ? '売る $' + (cd.val >= 1000000 ? '100万' : cd.val) : 'SELL $' + cd.val;
+      sBtn.style.cssText = 'margin-top:4px;font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-weight:bold';
+      sBtn.onclick = () => {
+        const sold = CARDS.splice(ix, 1)[0];
+        if (!isCr) mn += sold.val;
+        usH(); sv(); rCards();
+        spMsg.style.color = 'seagreen';
+        spMsg.innerText = tL ? `💰 ${sold.nm} を $${sold.val.toLocaleString()} で売却しました！` : `💰 Sold for $${sold.val.toLocaleString()}!`;
+      };
+      box.appendChild(sBtn);
+    } else {
+      const vTag = document.createElement('div'); vTag.innerText = tL ? '鑑賞用' : 'View Only'; vTag.style.cssText = 'margin-top:4px;font-size:10px;color:gray';
+      box.appendChild(vTag);
+    }
+    colList.appendChild(box);
+  });
+};
+
+const dw = () => {
+  const n2 = B.length, sz = (300 / n2) * zm2;
+  x.fillStyle = 'white'; x.fillRect(0, 0, c.width, c.height);
+  B.forEach((r, y) => r.forEach((v, z) => { if (v) { x.fillStyle = v; x.fillRect(z * sz, y * sz, sz, sz); } }));
+  if (gd) {
+    x.strokeStyle = 'lightgray';
+    for (let i = 0; i <= n2; i++) {
+      x.beginPath(); x.moveTo(i * sz, 0); x.lineTo(i * sz, c.height);
+      x.moveTo(0, i * sz); x.lineTo(c.width, i * sz); x.stroke();
+    }
+  }
+};
+
+const rGL = () => {
+  bgl.innerHTML = `<b>${tL ? '🎒 バッグ' : '🎒 BAG'} (${BG.length}/${mxB}):</b>`;
+  BG.forEach((g2, ix) => {
+    const card = document.createElement('div'); card.style.cssText = 'border:2px solid orange;border-radius:8px;padding:4px;background:ivory';
+    const st3 = 40 / g2.length, cv2 = document.createElement('canvas'); cv2.width = cv2.height = 40;
+    const cx = cv2.getContext('2d');
+    g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
+    const btn = document.createElement('button'); btn.innerText = tL ? '店へ出品' : 'TO SHOP';
+    btn.style.cssText = 'display:block;font-size:11px;background:orange;color:white;border:none;border-radius:4px;padding:2px 6px;margin-top:2px;cursor:pointer';
+    btn.onclick = () => {
+      if (G.length >= mxG) { ms.innerText = tx(14); return; }
+      G.push({ art: BG.splice(ix, 1)[0], gold: Date.now() < gFrmEnd ? 1 : 0 }); rGL(); usH(); sv();
+    };
+    card.appendChild(cv2); card.appendChild(btn); bgl.appendChild(card);
+  });
+  gl.innerHTML = `<b>🏪 ${tL ? 'ショップ (自動販売中)' : 'SHOP (Auto-Selling)'} (${G.length}/${mxG}):</b>`;
+  G.forEach((item, ix) => {
+    const g2 = Array.isArray(item) ? item : item.art, isG = item && !Array.isArray(item) && item.gold;
+    const card = document.createElement('div');
+    card.style.cssText = isG ? 'border:3px solid gold;box-shadow:0 0 10px gold;border-radius:8px;padding:5px;background:lemonchiffon' : 'border:2px solid deepskyblue;border-radius:8px;padding:5px;background:aliceblue';
+    const st3 = 44 / g2.length, cv2 = document.createElement('canvas'); cv2.width = cv2.height = 44;
+    const cx = cv2.getContext('2d');
+    g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
+    const val = cVal(item), prTag = document.createElement('div');
+    prTag.innerText = `${isG ? '✨' : ''}$${val}`; prTag.style.cssText = 'font-weight:bold;color:darkorange;font-size:13px;margin:2px 0';
+    const sBtn = document.createElement('button'); sBtn.innerText = tL ? '今すぐ売る' : 'SELL';
+    sBtn.style.cssText = 'font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:2px 6px;margin-right:3px;cursor:pointer';
+    sBtn.onclick = () => { const p = cVal(G.splice(ix, 1)[0]); if (!isCr) mn += p; rGL(); usH(); sv(); ms.innerText = `${tx(12)}+$${isCr ? '∞' : p}`; };
+    const bBtn = document.createElement('button'); bBtn.innerText = tL ? '戻す' : 'BAG';
+    bBtn.style.cssText = 'font-size:11px;background:gray;color:white;border:none;border-radius:4px;padding:2px 5px;cursor:pointer';
+    bBtn.onclick = () => { if (BG.length >= mxB) { ms.innerText = tx(14); return; } BG.push(g2); G.splice(ix, 1); rGL(); usH(); sv(); };
+    card.appendChild(cv2); card.appendChild(prTag); card.appendChild(sBtn); card.appendChild(bBtn); gl.appendChild(card);
+  });
+};
+uCol(); usH(); dw();
+</script>
+</body>
+</html>
 <div id="dnV" style="display:none;max-width:480px;margin:16px auto;background:white;padding:20px;border:3px solid gold;border-radius:14px;font-size:16px">
   <div style="font-weight:bold;color:darkorange;margin-bottom:10px;font-size:20px" id="dnT"></div>
   <div style="background:ivory;padding:12px;border-radius:10px;border:1px solid gold;margin-bottom:12px">
@@ -137,7 +521,6 @@
     </div>
     <div id="dnRes" style="color:crimson;font-weight:bold;margin-top:8px"></div>
     <div id="dnCodeBox" style="display:none;margin-top:8px;background:aliceblue;padding:8px;border-radius:8px;border:1px dashed royalblue">
-      <div style="font-size:13px;color:royalblue;font-weight:bold" id="dnCodeMsg"></div>
       <input id="dnGiftOut" readonly style="width:90%;font-size:12px;padding:4px;margin:4px 0;text-align:center"><br>
       <button id="cpGift" style="background:royalblue;color:white;font-size:13px;padding:4px 12px;border-radius:6px;cursor:pointer">COPY GIFT CODE</button>
     </div>
@@ -150,250 +533,37 @@
   </div>
   <button id="bkD" style="margin-top:14px;font-size:14px;padding:6px 18px;border-radius:8px;cursor:pointer"></button>
 </div>
+let dnTd = 0, dnDy = 0;
+topBtns.innerHTML += '<button id="db" style="display:none;background:gold;color:black;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer;margin-right:4px"></button>';
+const db = document.getElementById('db');
 
-<div id="frV" style="display:none;max-width:520px;margin:16px auto;background:white;padding:18px;border:3px solid mediumpurple;border-radius:12px;font-size:16px">
-  <div style="font-weight:bold;color:mediumpurple;margin-bottom:10px;font-size:18px" id="frT"></div>
-  <div id="frM">
-    <button id="ch1" style="background:mediumpurple;color:white;font-weight:bold;padding:10px 18px;margin:5px;font-size:16px"></button>
-    <button id="ch2" style="background:mediumseagreen;color:white;font-weight:bold;padding:10px 18px;margin:5px;font-size:16px"></button><br>
-    <button id="bkF" style="margin-top:10px;font-size:14px;padding:6px 14px"></button>
-  </div>
-  <div id="frL" style="display:none;font-size:15px">
-    <input id="fn" size="10" style="font-size:15px;padding:4px">
-    <input id="fid" maxlength="10" size="10" placeholder="ID" style="font-size:15px;padding:4px">
-    <button id="af" style="background:mediumpurple;color:white;font-weight:bold;font-size:15px;padding:5px 12px"></button>
-    <div id="fls" style="margin:8px 0;max-height:130px;overflow:auto;border:1px solid lavender;padding:4px"></div>
-    <button id="bkL" style="font-size:14px;padding:6px 14px"></button>
-  </div>
-  <div id="frW" style="display:none;font-size:14px;text-align:left">
-    <div id="hwW" style="background:aliceblue;padding:8px;margin-bottom:8px;border-radius:6px"></div>
-    <div style="text-align:center">
-      <button id="mkC" style="background:gold;font-weight:bold;font-size:14px;padding:6px 12px"></button>
-      <button id="noW" style="background:coral;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button><br>
-      <textarea id="cdI" rows="2" cols="36" style="margin-top:6px;font-size:12px" placeholder="CODE"></textarea><br>
-      <button id="goW" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 14px"></button>
-      <button id="bkW" style="font-size:14px;padding:6px 14px"></button>
-    </div>
-  </div>
-</div>
-
-<div id="otV" style="display:none">
-  <div id="otN" style="font-weight:bold;color:seagreen;margin-bottom:8px;font-size:18px"></div>
-  <div id="otG" style="display:inline-flex;gap:8px;margin:6px 0"></div><br>
-  <button id="lk" style="background:hotpink;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
-  <button id="coB" style="background:royalblue;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
-  <button id="acB" style="background:darkorange;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
-  <button id="nx" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
-  <button id="bkO" style="font-size:14px;padding:6px 12px"></button>
-  <div id="coBox" style="display:none;margin-top:8px;padding:8px;background:aliceblue;border:2px solid royalblue;border-radius:8px">
-    <canvas id="cc" width="160" height="160" style="border:2px solid royalblue;background:white;cursor:crosshair;touch-action:none"></canvas><br>
-    <input id="coh" type="range" min="0" max="360" value="0" style="width:110px">
-    <button id="coSv" style="background:orange;color:white;font-weight:bold;font-size:13px;padding:5px 10px"></button>
-  </div>
-  <div id="aucB" style="display:none;margin-top:8px;padding:8px;background:ivory;border:2px solid orange;border-radius:8px;font-size:14px">
-    <div id="aucP" style="font-weight:bold;color:purple"></div>
-    <div id="aucT" style="font-weight:bold;color:crimson;margin:4px 0"></div>
-    <button id="bidB" style="background:crimson;color:white;font-weight:bold;font-size:14px;padding:5px 12px"></button>
-  </div>
-  <div id="oms" style="color:darkorange;font-weight:bold;margin-top:5px;font-size:14px"></div>
-</div>
-<script>
-const x = c.getContext('2d'), px = pc.getContext('2d'), tx2 = tc.getContext('2d'), cx3 = cc.getContext('2d');
-const SZ = ['8', '12', '16', '32'];
-let B = Array.from({length: 8}, () => Array(8).fill(''));
-let CB = Array.from({length: 16}, () => Array(16).fill(''));
-let tL = 0, bg = 0, bt = 0, ni = 0, lkd = 0, fmd = 0, pmd = 0, sel = 0, inT = 0, lvC = 0, rbH = 0;
-let ck1 = 0, ck2 = 0, ck3 = 0, isCr = 0, dnTd = 0, dnDy = 0, aucOn = 0, aucBid = 0;
-let mn = 100, hasPet = 0, gFrmEnd = 0, CARDS = [], crSt = 0, uH = [], rH = [], tl = 0;
-let txX = 60, txY = 60, txC = 'hsl(200,100%,50%)', ac = null;
-let zm2 = 1, gd = 1, lv1 = 1, lv2 = 1, mxG = 1, mxB = 2;
-let G = [], BG = [], FL = [], USED = [];
-let cx2 = 110, cy2 = 110, dogX = 80, dogY = 110, cstX = 0, pName = '', dotId = '';
-
-const ml = '523,659,784,659,587,698,880,698'.split(',');
-const bs2 = '131,196,131,196,147,220,147,220'.split(',');
-const pkM = '523,659,784,1047,1047,988,784,659'.split(',');
-
-const w0 = ['PEN','ERASER','FILL','PICKER','TO BAG','SELL NOW','CLEAR','PRICE+','SPEED+','SHOP SLOT','BAG SLOT','SIZE UP','SOLD!','MOVED!','FULL!','TUTORIAL','SKIP / START','FRIENDS','MENU','LIST','VISIT','BACK','ADD','NAME','1.Click MY CODE & send.<br>2.Paste & click VISIT.<br>*If unable click CANT DO IT!','MY CODE(COPIED)','CANT DO IT(RANDOM)','VISIT','LIKE!(+$30)','NEXT','BACK','LIKED!+$30','MOVED!','WALK(WASD)','DRAW:WASD | Move | Click art to switch','ENTER NAME','CREATOR','DONATE','DONATE PANEL','Enter amount to send:','SEND DONATION','AUCTION (3P)','BID +$100','CO-OP DRAW','SAVE TO BAG'];
-const w1 = ['ペン','消しゴム','塗りつぶし','スポイト','バッグへ','今すぐ売る','全消し','価格アップ','スピードUP','店枠+1','バッグ+1','サイズ拡大','売れた!','移動した!','いっぱい!','きゅートリアル','スキップ / 開始','フレンド','メニュー','一覧','訪問','戻る','追加','名前','1.「コードコピー」で相手に送る。<br>2.貼り付けて「訪問」を押す。<br>*送れがい済ましたらは「できない」を押してね!','コードコピー(完了)','できない(ランダム)','訪問','いいね!(+$30)','次へ','戻る','いいね済!+$30','移動した!','歩く(WASD)','描く:WASD | 移動 | 絵をクリックで切替','名前を入力','創造者','寄付','寄付パネル','送る金額を入力:','寄付を送る','オークション(3人)','入札 +$100','一緒にお絵描き','バッグに保存'];
-const tx = i => (tL ? w1 : w0)[i];
-const RN = ['SORA', 'YUT', 'HARU', 'LUNA', 'KAI'];
-
-const gCol = () => `hsl(${ch.value},${cs.value}%,${cl2.value}%)`;
-const uCol = () => { pv.style.background = gCol(); };
-ch.oninput = cs.oninput = cl2.oninput = uCol;
-
-setInterval(() => {
-  rbH = (rbH + 20) % 360;
-  crB.style.color = `hsl(${rbH},95%,45%)`;
-}, 60);
-
-const mkDotId = () => {
-  const cs2 = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-  let id2 = '';
-  do {
-    id2 = '';
-    for (let i2 = 0; i2 < 10; i2++) id2 += cs2.charAt(Math.floor(Math.random() * cs2.length));
-  } while (USED.includes(id2) || id2 === '2700000AAAAA');
-  USED.push(id2);
-  return id2;
+const origGo2 = go.onclick;
+go.onclick = () => {
+  origGo2();
+  db.style.display = 'inline';
+  db.innerText = tL ? '寄付' : 'DONATE';
+  dnT.innerText = tL ? '寄付パネル' : 'DONATE PANEL';
+  dnSub1.innerText = tL ? '📤 寄付を送る（ギフトコード発行）' : '📤 Send Donation (Issue Gift Code)';
+  dnSub2.innerText = tL ? '📥 ギフトコードで受け取る' : '📥 Receive with Gift Code';
+  dnAsk.innerText = tL ? '送る金額を入力:' : 'Enter amount to send:';
+  dnGo.innerText = tL ? '寄付を送る' : 'SEND DONATION';
+  bkD.innerText = tL ? '戻る' : 'BACK';
+  const d2 = getSave();
+  if (d2) { dnTd = d2.dnTd || 0; dnDy = d2.dnDy || 0; }
 };
 
-const dwT = () => {
-  tx2.fillStyle = 'white';
-  tx2.fillRect(0, 0, 160, 160);
-  tx2.strokeStyle = 'lightgray';
-  for (let i = 0; i <= 5; i++) {
-    tx2.beginPath(); tx2.moveTo(i * 32, 0); tx2.lineTo(i * 32, 160);
-    tx2.moveTo(0, i * 32); tx2.lineTo(160, i * 32); tx2.stroke();
-  }
-  tx2.fillStyle = txC;
-  tx2.fillRect(txX, txY, 32, 32);
-  hb.innerHTML = tL
-    ? `<b>チュートリアル</b><br>${ck1 ? '<span style="color:green">✅</span>' : '⬜'}1. 下のスライダーで色変更<br>${ck2 ? '<span style="color:green">✅</span>' : '⬜'}2. 枠内をクリック<br>${ck3 ? '<span style="color:green">✅</span>' : '⬜'}3. WASDで移動`
-    : `<b>Try left box!</b><br>${ck1 ? '<span style="color:green">✅</span>' : '⬜'}1.Color<br>${ck2 ? '<span style="color:green">✅</span>' : '⬜'}2.Click<br>${ck3 ? '<span style="color:green">✅</span>' : '⬜'}3.WASD`;
-};
-
-tch.oninput = () => { txC = `hsl(${tch.value},100%,50%)`; ck1 = 1; dwT(); };
-tc.onclick = e2 => {
-  const rc = tc.getBoundingClientRect();
-  txX = Math.floor((e2.clientX - rc.left) / 32) * 32;
-  txY = Math.floor((e2.clientY - rc.top) / 32) * 32;
-  ck2 = 1; dwT();
-};
-
-const sv = () => {
-  const dataStr = JSON.stringify({ mn, lv1, lv2, lvC, mxG, mxB, G, BG, B, FL, sel, pName, dotId, USED, isCr, dnTd, dnDy, hasPet, gFrmEnd, CARDS });
-  try { window.name = dataStr; } catch (e) {}
-  try { localStorage.setItem('DOT_YUNIVERSE_SAVE', dataStr); } catch (e) {}
-};
-
-const getSaveData = () => {
-  try {
-    const ls = localStorage.getItem('DOT_YUNIVERSE_SAVE');
-    if (ls && ls.startsWith('{')) return JSON.parse(ls);
-  } catch (e) {}
-  try {
-    if (window.name && window.name.startsWith('{')) return JSON.parse(window.name);
-  } catch (e) {}
-  return null;
-};
-
-const ld = () => {
-  const d2 = getSaveData();
-  if (!d2) return;
-  mn = d2.mn != null ? d2.mn : 100;
-  lv1 = d2.lv1 || 1; lv2 = d2.lv2 || 1; lvC = d2.lvC || 0;
-  mxG = d2.mxG || 1; mxB = d2.mxB || 2;
-  G = d2.G || []; BG = d2.BG || []; FL = d2.FL || []; USED = d2.USED || [];
-  sel = d2.sel || 0; isCr = d2.isCr || 0; dnTd = d2.dnTd || 0; dnDy = d2.dnDy || 0;
-  hasPet = d2.hasPet || 0; gFrmEnd = d2.gFrmEnd || 0; CARDS = d2.CARDS || [];
-  if (d2.pName) pName = d2.pName;
-  if (d2.dotId) dotId = d2.dotId;
-  if (d2.B) B = d2.B;
-  if (dotId === '2700000AAAAA') isCr = 1;
-  pInf.innerText = pName; dId.innerText = dotId;
-  uCol(); usH(); dw(); sv();
-};
-
-b0.onclick = () => sl(1);
-b1.onclick = () => sl(0);
-
-cpId.onclick = () => {
-  if (navigator.clipboard) navigator.clipboard.writeText(dotId);
-  cpId.innerText = 'OK!';
-  setTimeout(() => cpId.innerText = 'COPY', 1000);
-};
-
-const cVal = item => {
-  const a2 = Array.isArray(item) ? item : item.art;
-  const isG = item && !Array.isArray(item) && item.gold;
-  let cnt = 0;
-  const st2 = new Set();
-  a2.forEach(r => r.forEach(v => { if (v) { cnt++; st2.add(v); } }));
-  if (cnt === 0) return 0;
-  const base = Math.floor((cnt * 3 + st2.size * 12) * lv1);
-  return isG ? Math.floor(base * 1.5) : base;
-};
-
-const usH = () => {
-  document.getElementById('mn').innerText = isCr ? '∞' : Math.floor(mn);
-  u1.innerText = tx(7) + `Lv${lv1} ($${lv1 * 40})`;
-  u2.innerText = tx(8) + `Lv${lv2} ($${lv2 * 60})`;
-  u3.innerText = tx(9) + (mxG >= 10 ? '(MAX)' : ` ($${mxG * 100})`);
-  u4.innerText = tx(10) + (mxB >= 15 ? '(MAX)' : ` ($${mxB * 60})`);
-  u5.innerText = tx(11) + (SZ[lvC] + `x${SZ[lvC]}` + (lvC >= 3 ? '(MAX)' : ` ($${(lvC + 1) * 120})`));
-  incRate.innerText = isCr ? '(+∞/s)' : `(+$${G.reduce((s, g) => s + cVal(g), 0)}/s)`;
-  petSt.innerText = hasPet ? (tL ? '🐶ペット同行中(速度2倍)' : '🐶Pet(2x)') : '';
-  if (hasPet) {
-    buyPet.innerText = tL ? '購入済 (永久効果)' : 'OWNED';
-    buyPet.disabled = true; buyPet.style.opacity = '0.6';
-  } else {
-    buyPet.innerText = '$500';
-    buyPet.disabled = false; buyPet.style.opacity = '1';
-  }
-  const rem = Math.max(0, Math.ceil((gFrmEnd - Date.now()) / 1000));
-  if (rem > 0) {
-    buyFrm.innerText = tL ? `発動中 (${Math.floor(rem / 60)}分${rem % 60}秒)` : `ACTIVE (${rem}s)`;
-    buyFrm.disabled = true; buyFrm.style.opacity = '0.7';
-  } else {
-    buyFrm.innerText = '$1,000';
-    buyFrm.disabled = false; buyFrm.style.opacity = '1';
-  }
-};
-  gachaRes.style.borderColor = pick.r === 'SAR' ? 'crimson' : 'gold';
-  gachaRes.style.background = pick.r === 'SAR' ? '#222' : 'aliceblue';
-  gachaRes.style.color = pick.r === 'SAR' ? 'gold' : 'darkslategray';
-  gachaRes.innerHTML = '<div style="font-weight:bold;font-size:18px;color:' + (pick.r === 'SAR' ? '#ff1744' : pick.col) + '">[' + pick.r + '] ' + (tL ? pick.nm : pick.en) + '</div><canvas id="gCv" width="64" height="64" style="margin:6px;border:2px solid gold;border-radius:6px"></canvas><div style="font-size:13px;font-weight:bold">' + (pick.val > 0 ? (tL ? '売却価格: $' + pick.val.toLocaleString() : 'Sell: $' + pick.val.toLocaleString()) : (tL ? '鑑賞用カード' : 'Collection Only')) + '</div>';
-  drawCardArt(document.getElementById('gCv'), pick);
-  spMsg.style.color = 'deeppink';
-  spMsg.innerText = pick.r === 'SAR' ? (tL ? '🐉 超激レア！SAR「黒龍」を引き当てました！！' : '🐉 ULTRA RARE! SAR BLACK DRAGON!!') : (tL ? 'カードを入手しました！' : 'Got a Dot Card!');
-};
-
-const rCards = () => {
-  colList.innerHTML = '';
-  if (!CARDS.length) {
-    colList.innerHTML = '<div style="color:gray;font-size:13px">' + (tL ? 'まだカードを持っていません' : 'No cards yet') + '</div>';
-    return;
-  }
-  CARDS.forEach((cd, ix) => {
-    const box = document.createElement('div');
-    box.style.cssText = 'border:2px solid ' + (cd.r === 'SAR' ? 'crimson' : cd.col) + ';border-radius:10px;padding:6px;background:' + (cd.r === 'SAR' ? '#1a1a2e' : 'white') + ';color:' + (cd.r === 'SAR' ? 'gold' : 'darkslategray') + ';width:105px;text-align:center';
-    const badge = document.createElement('div');
-    badge.innerText = cd.r;
-    badge.style.cssText = 'font-weight:bold;font-size:12px;color:' + (cd.r === 'SAR' ? '#ff5252' : cd.col);
-    const cv = document.createElement('canvas');
-    cv.width = cv.height = 64;
-    cv.style.cssText = 'border:1px solid lightgray;margin:3px 0;border-radius:4px';
-    drawCardArt(cv, cd);
-    const title = document.createElement('div');
-    title.innerText = tL ? cd.nm : cd.en;
-    title.style.cssText = 'font-size:11px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
-    box.appendChild(badge); box.appendChild(cv); box.appendChild(title);
-    if (cd.val > 0) {
-      const sBtn = document.createElement('button');
-      sBtn.innerText = tL ? '売る $' + (cd.val >= 1000000 ? '100万' : cd.val) : 'SELL $' + cd.val;
-      sBtn.style.cssText = 'margin-top:4px;font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-weight:bold';
-      sBtn.onclick = () => {
-        const sold = CARDS.splice(ix, 1)[0];
-        if (!isCr) mn += sold.val;
-        usH(); sv(); rCards(); tn(1047, 'triangle', 0.15, 0.06);
-        spMsg.style.color = 'seagreen';
-        spMsg.innerText = tL ? '💰 ' + sold.nm + ' を $' + sold.val.toLocaleString() + ' で売却しました！' : '💰 Sold for $' + sold.val.toLocaleString() + '!';
-      };
-      box.appendChild(sBtn);
-    } else {
-      const vTag = document.createElement('div');
-      vTag.innerText = tL ? '鑑賞用' : 'View Only';
-      vTag.style.cssText = 'margin-top:4px;font-size:10px;color:gray';
-      box.appendChild(vTag);
-    }
-    colList.appendChild(box);
-  });
+const origSv = sv;
+window.sv = () => {
+  origSv();
+  const d2 = getSave() || {};
+  d2.dnTd = dnTd; d2.dnDy = dnDy;
+  const s = JSON.stringify(d2);
+  try { localStorage.setItem('DOT_YUNIVERSE_SAVE', s); } catch (e) {}
+  try { window.name = s; } catch (e) {}
 };
 
 db.onclick = () => {
-  edV.style.display = pkV.style.display = frV.style.display = spV.style.display = 'none';
+  edV.style.display = pkV.style.display = spV.style.display = 'none';
   dnV.style.display = 'block'; dnId.value = ''; dnAmtB.style.display = 'none';
   dnRes.innerText = ''; dnCodeBox.style.display = 'none'; dnRcvRes.innerText = '';
 };
@@ -411,11 +581,11 @@ dnGo.onclick = () => {
     return;
   }
   if (!isCr) { mn -= v3; dnTd += v3; }
-  usH(); sv(); tn(1047, 'triangle', 0.2, 0.06);
+  usH(); window.sv();
   const tid = dnId.value.toUpperCase();
-  dnRes.innerText = tL ? '✅ ID:' + tid + ' に $' + v3 + ' 送金しました！' : '✅ Sent $' + v3 + ' to ID:' + tid + '!';
-  const gCode = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
-  dnGiftOut.value = gCode; dnCodeBox.style.display = 'block';
+  dnRes.innerText = tL ? `✅ ID:${tid} に $${v3} 送金しました！` : `✅ Sent $${v3} to ID:${tid}!`;
+  dnGiftOut.value = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
+  dnCodeBox.style.display = 'block';
 };
 cpGift.onclick = () => {
   if (navigator.clipboard) navigator.clipboard.writeText(dnGiftOut.value);
@@ -429,13 +599,13 @@ dnRcvBtn.onclick = () => {
     const data = JSON.parse(atob(raw.slice(5)));
     if (data.to && data.to !== dotId) {
       dnRcvRes.style.color = 'crimson';
-      dnRcvRes.innerText = tL ? '❌ このコードは ID:' + data.to + ' 宛てです' : '❌ This code is for ID:' + data.to;
+      dnRcvRes.innerText = tL ? `❌ このコードは ID:${data.to} 宛てです` : `❌ This code is for ID:${data.to}`;
       return;
     }
     if (!isCr) mn += Number(data.amt) || 0;
-    usH(); sv(); tn(880, 'sine', 0.2, 0.08);
+    usH(); window.sv();
     dnRcvRes.style.color = 'seagreen';
-    dnRcvRes.innerText = tL ? '🎉 ' + data.from + ' から $' + data.amt + ' を受け取りました！' : '🎉 Received $' + data.amt + ' from ' + data.from + '!';
+    dnRcvRes.innerText = tL ? `🎉 ${data.from} から $${data.amt} を受け取りました！` : `🎉 Received $${data.amt} from ${data.from}!`;
     dnRcvIn.value = '';
   } catch (e) {
     dnRcvRes.style.color = 'crimson';
@@ -443,197 +613,3 @@ dnRcvBtn.onclick = () => {
   }
 };
 bkD.onclick = () => { dnV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
-  gachaRes.style.borderColor = pick.r === 'SAR' ? 'crimson' : 'gold';
-  gachaRes.style.background = pick.r === 'SAR' ? '#222' : 'aliceblue';
-  gachaRes.style.color = pick.r === 'SAR' ? 'gold' : 'darkslategray';
-  gachaRes.innerHTML = '<div style="font-weight:bold;font-size:18px;color:' + (pick.r === 'SAR' ? '#ff1744' : pick.col) + '">[' + pick.r + '] ' + (tL ? pick.nm : pick.en) + '</div><canvas id="gCv" width="64" height="64" style="margin:6px;border:2px solid gold;border-radius:6px"></canvas><div style="font-size:13px;font-weight:bold">' + (pick.val > 0 ? (tL ? '売却価格: $' + pick.val.toLocaleString() : 'Sell: $' + pick.val.toLocaleString()) : (tL ? '鑑賞用カード' : 'Collection Only')) + '</div>';
-  drawCardArt(document.getElementById('gCv'), pick);
-  spMsg.style.color = 'deeppink';
-  spMsg.innerText = pick.r === 'SAR' ? (tL ? '🐉 超激レア！SAR「黒龍」を引き当てました！！' : '🐉 ULTRA RARE! SAR BLACK DRAGON!!') : (tL ? 'カードを入手しました！' : 'Got a Dot Card!');
-};
-
-const rCards = () => {
-  colList.innerHTML = '';
-  if (!CARDS.length) {
-    colList.innerHTML = '<div style="color:gray;font-size:13px">' + (tL ? 'まだカードを持っていません' : 'No cards yet') + '</div>';
-    return;
-  }
-  CARDS.forEach((cd, ix) => {
-    const box = document.createElement('div');
-    box.style.cssText = 'border:2px solid ' + (cd.r === 'SAR' ? 'crimson' : cd.col) + ';border-radius:10px;padding:6px;background:' + (cd.r === 'SAR' ? '#1a1a2e' : 'white') + ';color:' + (cd.r === 'SAR' ? 'gold' : 'darkslategray') + ';width:105px;text-align:center';
-    const badge = document.createElement('div');
-    badge.innerText = cd.r;
-    badge.style.cssText = 'font-weight:bold;font-size:12px;color:' + (cd.r === 'SAR' ? '#ff5252' : cd.col);
-    const cv = document.createElement('canvas');
-    cv.width = cv.height = 64;
-    cv.style.cssText = 'border:1px solid lightgray;margin:3px 0;border-radius:4px';
-    drawCardArt(cv, cd);
-    const title = document.createElement('div');
-    title.innerText = tL ? cd.nm : cd.en;
-    title.style.cssText = 'font-size:11px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
-    box.appendChild(badge); box.appendChild(cv); box.appendChild(title);
-    if (cd.val > 0) {
-      const sBtn = document.createElement('button');
-      sBtn.innerText = tL ? '売る $' + (cd.val >= 1000000 ? '100万' : cd.val) : 'SELL $' + cd.val;
-      sBtn.style.cssText = 'margin-top:4px;font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-weight:bold';
-      sBtn.onclick = () => {
-        const sold = CARDS.splice(ix, 1)[0];
-        if (!isCr) mn += sold.val;
-        usH(); sv(); rCards(); tn(1047, 'triangle', 0.15, 0.06);
-        spMsg.style.color = 'seagreen';
-        spMsg.innerText = tL ? '💰 ' + sold.nm + ' を $' + sold.val.toLocaleString() + ' で売却しました！' : '💰 Sold for $' + sold.val.toLocaleString() + '!';
-      };
-      box.appendChild(sBtn);
-    } else {
-      const vTag = document.createElement('div');
-      vTag.innerText = tL ? '鑑賞用' : 'View Only';
-      vTag.style.cssText = 'margin-top:4px;font-size:10px;color:gray';
-      box.appendChild(vTag);
-    }
-    colList.appendChild(box);
-  });
-};
-
-db.onclick = () => {
-  edV.style.display = pkV.style.display = frV.style.display = spV.style.display = 'none';
-  dnV.style.display = 'block'; dnId.value = ''; dnAmtB.style.display = 'none';
-  dnRes.innerText = ''; dnCodeBox.style.display = 'none'; dnRcvRes.innerText = '';
-};
-dnId.oninput = () => {
-  dnAmtB.style.display = dnId.value.trim().length === 10 ? 'block' : 'none';
-  dnRes.innerText = ''; dnCodeBox.style.display = 'none';
-};
-dnGo.onclick = () => {
-  const td = new Date().getDate();
-  if (dnDy !== td) { dnDy = td; dnTd = 0; }
-  const v3 = Math.floor(Number(dnAmt.value) || 0);
-  if (v3 <= 0) return;
-  if (!isCr && (dnTd + v3 > 1000000 || mn < v3)) {
-    dnRes.innerText = tL ? '1日 $1,000,000までお金不足！' : 'Max $1M/day or NO money!';
-    return;
-  }
-  if (!isCr) { mn -= v3; dnTd += v3; }
-  usH(); sv(); tn(1047, 'triangle', 0.2, 0.06);
-  const tid = dnId.value.toUpperCase();
-  dnRes.innerText = tL ? '✅ ID:' + tid + ' に $' + v3 + ' 送金しました！' : '✅ Sent $' + v3 + ' to ID:' + tid + '!';
-  const gCode = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
-  dnGiftOut.value = gCode; dnCodeBox.style.display = 'block';
-};
-cpGift.onclick = () => {
-  if (navigator.clipboard) navigator.clipboard.writeText(dnGiftOut.value);
-  cpGift.innerText = 'COPIED!';
-  setTimeout(() => cpGift.innerText = 'COPY GIFT CODE', 1200);
-};
-dnRcvBtn.onclick = () => {
-  try {
-    const raw = dnRcvIn.value.trim();
-    if (!raw.startsWith('GIFT-')) throw 0;
-    const data = JSON.parse(atob(raw.slice(5)));
-    if (data.to && data.to !== dotId) {
-      dnRcvRes.style.color = 'crimson';
-      dnRcvRes.innerText = tL ? '❌ このコードは ID:' + data.to + ' 宛てです' : '❌ This code is for ID:' + data.to;
-      return;
-    }
-    if (!isCr) mn += Number(data.amt) || 0;
-    usH(); sv(); tn(880, 'sine', 0.2, 0.08);
-    dnRcvRes.style.color = 'seagreen';
-    dnRcvRes.innerText = tL ? '🎉 ' + data.from + ' から $' + data.amt + ' を受け取りました！' : '🎉 Received $' + data.amt + ' from ' + data.from + '!';
-    dnRcvIn.value = '';
-  } catch (e) {
-    dnRcvRes.style.color = 'crimson';
-    dnRcvRes.innerText = tL ? '❌ 無効なギフトコードです' : '❌ Invalid Gift Code';
-  }
-};
-bkD.onclick = () => { dnV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
-const rGL = () => {
-  bgl.innerHTML = '<b>' + (tL ? '🎒 バッグ' : '🎒 BAG') + ' (' + BG.length + '/' + mxB + '):</b>';
-  BG.forEach((g2, ix) => {
-    const card = document.createElement('div');
-    card.style.cssText = 'border:2px solid orange;border-radius:8px;padding:4px;background:ivory;text-align:center';
-    const n2 = g2.length, st3 = 40 / n2;
-    const cv2 = document.createElement('canvas'); cv2.width = cv2.height = 40;
-    const cx = cv2.getContext('2d');
-    g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
-    const btn = document.createElement('button');
-    btn.innerText = tL ? '店へ出品' : 'TO SHOP';
-    btn.style.cssText = 'display:block;font-size:11px;background:orange;color:white;border:none;border-radius:4px;padding:2px 6px;margin-top:2px;cursor:pointer';
-    btn.onclick = () => {
-      if (G.length >= mxG) { ms.innerText = tx(14); return; }
-      const isG = Date.now() < gFrmEnd ? 1 : 0;
-      G.push({ art: BG.splice(ix, 1)[0], gold: isG });
-      rGL(); usH(); sv(); ms.innerText = tx(13); tn(784, 'sine', 0.08, 0.04);
-    };
-    card.appendChild(cv2); card.appendChild(btn); bgl.appendChild(card);
-  });
-
-  gl.innerHTML = '<b>🏪 ' + (tL ? 'ショップ (自動販売中)' : 'SHOP (Auto-Selling)') + ' (' + G.length + '/' + mxG + '):</b>';
-  G.forEach((item, ix) => {
-    const g2 = Array.isArray(item) ? item : item.art;
-    const isG = item && !Array.isArray(item) && item.gold;
-    const card = document.createElement('div');
-    card.style.cssText = isG
-      ? 'border:3px solid gold;box-shadow:0 0 10px gold;border-radius:8px;padding:5px;background:lemonchiffon;text-align:center'
-      : 'border:2px solid deepskyblue;border-radius:8px;padding:5px;background:aliceblue;text-align:center';
-    const n2 = g2.length, st3 = 44 / n2;
-    const cv2 = document.createElement('canvas'); cv2.width = cv2.height = 44;
-    const cx = cv2.getContext('2d');
-    g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
-    const val = cVal(item);
-    const prTag = document.createElement('div');
-    prTag.innerText = (isG ? '✨' : '') + '$' + val;
-    prTag.style.cssText = 'font-weight:bold;color:darkorange;font-size:13px;margin:2px 0';
-    const sBtn = document.createElement('button');
-    sBtn.innerText = tL ? '今すぐ売る' : 'SELL';
-    sBtn.style.cssText = 'font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:2px 6px;margin-right:3px;cursor:pointer';
-    sBtn.onclick = () => {
-      const art = G.splice(ix, 1)[0];
-      const p = cVal(art);
-      if (!isCr) mn += p;
-      rGL(); usH(); sv(); ms.innerText = tx(12) + '+$' + (isCr ? '∞' : p); tn(1047, 'triangle', 0.12, 0.06);
-    };
-    const bBtn = document.createElement('button');
-    bBtn.innerText = tL ? '戻す' : 'BAG';
-    bBtn.style.cssText = 'font-size:11px;background:gray;color:white;border:none;border-radius:4px;padding:2px 5px;cursor:pointer';
-    bBtn.onclick = () => {
-      if (BG.length >= mxB) { ms.innerText = tx(14); return; }
-      BG.push(g2); G.splice(ix, 1); rGL(); usH(); sv(); tn(659, 'sine', 0.07, 0.04);
-    };
-    card.appendChild(cv2); card.appendChild(prTag); card.appendChild(sBtn); card.appendChild(bBtn); gl.appendChild(card);
-  });
-};
-const rFL = () => {
-  fls.innerHTML = tx(27);
-  FL.forEach((f2, ix) => {
-    const dv = document.createElement('div');
-    dv.innerHTML = f2 + ' <button onclick="FL.splice(' + ix + ',1);rFL();sv()">X</button>';
-    fls.appendChild(dv);
-  });
-};
-
-const tn = (f, tp, du, vl) => {
-  if (!f) return;
-  if (!ac) ac = new AudioContext();
-  ac.resume();
-  const o2 = ac.createOscillator(), g2 = ac.createGain();
-  o2.type = tp; o2.frequency.value = f;
-  g2.gain.setValueAtTime(vl, ac.currentTime);
-  g2.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + du);
-  o2.connect(g2); g2.connect(ac.destination); o2.start(); o2.stop(ac.currentTime + du);
-};
-
-const pl = () => {
-  if (!bg) return;
-  const n3 = ni % 8;
-  if (fmd) {
-    tn(pkM[n3], 'sine', 0.45, 0.05); tn(bs2[n3], 'triangle', 0.5, 0.04);
-    ni++; bt = setTimeout(pl, 260);
-  } else {
-    tn(ml[n3], 'triangle', 0.22, 0.05); tn(bs2[n3], 'triangle', 0.25, 0.08);
-    ni++; bt = setTimeout(pl, 180);
-  }
-};
-
-uCol(); usH(); dw();
-</script>
-</body>
-</html>
