@@ -1,6 +1,6 @@
 <!DOCTYPE html><meta charset="utf-8"><body style="text-align:center;background:aliceblue"><h1 style="color:royalblue">DOT YUNIVERSE</h1>
 <div id="g"><button onclick="window.L=1;g.style.display='none';nmV.style.display='block';nmT.innerText='名前を入力'" style="font-size:22px;padding:14px">日本語 (JP)</button> <button onclick="window.L=0;g.style.display='none';nmV.style.display='block';nmT.innerText='ENTER NAME'" style="font-size:22px;padding:14px">English (EN)</button></div>
-<div id="nmV" style="display:none"><p id="nmT">名前を入力</p><input id="pnm" maxlength="12"><button onclick="r=pnm.value.trim();if(!window.cr&&r=='yuaou1024'){window.cr=1;pnm.value='';return}nmV.style.display='none';m.style.display='block';pInf.innerText=(window.cr?(L?'[作者] ':'[CREATOR] '):'')+(r||'PLAYER')+' [ID:'+Math.random().toString(36).slice(2,12).toUpperCase()+']'">OK</button></div>
+<div id="nmV" style="display:none"><p id="nmT">名前を入力</p><input id="pnm" maxlength="12"><button onclick="r=pnm.value.trim();if(!window.cr&&r=='yuaou1024'){window.cr=1;pnm.value='';return}nmV.style.display='none';hlp.style.display='block';pInf.innerText=(window.cr?(L?'[作者] ':'[CREATOR] '):'')+(r||'PLAYER')+' [ID:'+Math.random().toString(36).slice(2,12).toUpperCase()+']';mn.innerText=window.cr?'∞':0;tx=tc.getContext('2d');tx.fillStyle='hsl(200,100%,50%)';tx.fillRect(64,64,32,32)">OK</button></div>
 <div id="m" style="display:none">
   <h3 id="pInf" style="margin:6px"></h3>
   <div style="color:darkorange;font-weight:bold;font-size:18px;margin:6px">$<b id="mn">0</b></div>
