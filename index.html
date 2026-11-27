@@ -743,13 +743,10 @@ const rGL = () => {
     g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
     const val = cVal(item), prTag = document.createElement('div');
     prTag.innerText = `${isG ? '✨' : ''}$${val}`; prTag.style.cssText = 'font-weight:bold;color:darkorange;font-size:13px;margin:2px 0';
-    const sBtn = document.createElement('button'); sBtn.innerText = tL ? '今すぐ売る' : 'SELL';
-    sBtn.style.cssText = 'font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:2px 6px;margin-right:3px;cursor:pointer';
-    sBtn.onclick = () => { const p = cVal(G.splice(ix, 1)[0]); if (!isCr) mn += p; rGL(); usH(); sv(); ms.innerText = `${tx(12)}+$${isCr ? '∞' : p}`; tn(1047, 'triangle', 0.12, 0.06); };
-    const bBtn = document.createElement('button'); bBtn.innerText = tL ? '戻す' : 'BAG';
+       const bBtn = document.createElement('button'); bBtn.innerText = tL ? '戻す' : 'BAG';
     bBtn.style.cssText = 'font-size:11px;background:gray;color:white;border:none;border-radius:4px;padding:2px 5px;cursor:pointer';
     bBtn.onclick = () => { if (BG.length >= mxB) { ms.innerText = tx(14); return; } BG.push(g2); G.splice(ix, 1); rGL(); usH(); sv(); tn(659, 'sine', 0.07, 0.04); };
-    card.appendChild(cv2); card.appendChild(prTag); card.appendChild(sBtn); card.appendChild(bBtn); gl.appendChild(card);
+    card.appendChild(cv2); card.appendChild(prTag); card.appendChild(bBtn); gl.appendChild(card);
   });
 };
 
