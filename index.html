@@ -7,8 +7,11 @@
 </head>
 <body style="background:aliceblue;color:darkslategray;text-align:center;font-family:sans-serif;overflow-x:hidden;font-size:16px;margin:0;padding:10px">
 <div style="position:relative">
-  <div id="topBtns" style="position:absolute;left:10px;top:6px">
+  <div style="position:absolute;left:10px;top:6px">
     <button id="sb" style="display:none;background:deeppink;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer;margin-right:4px"></button>
+    <button id="db" style="display:none;background:gold;color:black;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer;margin-right:4px"></button>
+    <button id="fb" style="display:none;background:mediumpurple;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer;margin-right:4px"></button>
+    <button id="mb" style="display:none;background:orange;color:white;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 10px;cursor:pointer">BGM:OFF</button>
   </div>
   <h1 style="margin:6px;color:royalblue;font-size:32px">DOT YUNIVERSE</h1>
 </div>
@@ -91,7 +94,6 @@
     </div>
   </div>
 </div>
-
 <div id="spV" style="display:none;max-width:680px;margin:14px auto;background:white;padding:18px;border:3px solid deeppink;border-radius:16px">
   <div style="font-weight:bold;color:deeppink;font-size:22px;margin-bottom:12px" id="spT"></div>
   <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
@@ -121,14 +123,93 @@
   <div id="colList" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-height:220px;overflow-y:auto;padding:4px"></div>
   <button id="bkS" style="margin-top:14px;font-size:15px;padding:7px 22px;border-radius:8px;cursor:pointer"></button>
 </div>
+
+<div id="dnV" style="display:none;max-width:480px;margin:16px auto;background:white;padding:20px;border:3px solid gold;border-radius:14px;font-size:16px">
+  <div style="font-weight:bold;color:darkorange;margin-bottom:10px;font-size:20px" id="dnT"></div>
+  <div style="background:ivory;padding:12px;border-radius:10px;border:1px solid gold;margin-bottom:12px">
+    <div style="font-weight:bold;color:darkslategray;margin-bottom:6px" id="dnSub1"></div>
+    <input id="dnId" maxlength="10" size="14" placeholder="ID (10 chars)" style="text-align:center;font-size:16px;padding:6px;border-radius:6px">
+    <div id="dnAmtB" style="display:none;margin-top:8px">
+      <div id="dnAsk" style="color:royalblue;font-weight:bold;margin-bottom:6px"></div>
+      <input id="dnAmt" type="number" min="1" placeholder="100" style="width:140px;text-align:center;font-size:16px;padding:6px;border-radius:6px">
+      <button id="dnGo" style="background:gold;font-weight:bold;font-size:15px;padding:6px 14px;border-radius:6px;cursor:pointer"></button>
+    </div>
+    <div id="dnRes" style="color:crimson;font-weight:bold;margin-top:8px"></div>
+    <div id="dnCodeBox" style="display:none;margin-top:8px;background:aliceblue;padding:8px;border-radius:8px;border:1px dashed royalblue">
+      <input id="dnGiftOut" readonly style="width:90%;font-size:12px;padding:4px;margin:4px 0;text-align:center"><br>
+      <button id="cpGift" style="background:royalblue;color:white;font-size:13px;padding:4px 12px;border-radius:6px;cursor:pointer">COPY GIFT CODE</button>
+    </div>
+  </div>
+  <div style="background:honeydew;padding:12px;border-radius:10px;border:1px solid mediumseagreen">
+    <div style="font-weight:bold;color:seagreen;margin-bottom:6px" id="dnSub2"></div>
+    <input id="dnRcvIn" placeholder="GIFT CODE" style="width:70%;font-size:14px;padding:6px;border-radius:6px">
+    <button id="dnRcvBtn" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 12px;border-radius:6px;cursor:pointer">OK</button>
+    <div id="dnRcvRes" style="color:seagreen;font-weight:bold;margin-top:6px;font-size:14px"></div>
+  </div>
+  <button id="bkD" style="margin-top:14px;font-size:14px;padding:6px 18px;border-radius:8px;cursor:pointer"></button>
+</div>
+<div id="frV" style="display:none;max-width:520px;margin:16px auto;background:white;padding:18px;border:3px solid mediumpurple;border-radius:12px;font-size:16px">
+  <div style="font-weight:bold;color:mediumpurple;margin-bottom:10px;font-size:18px" id="frT"></div>
+  <div id="frM">
+    <button id="ch1" style="background:mediumpurple;color:white;font-weight:bold;padding:10px 18px;margin:5px;font-size:16px"></button>
+    <button id="ch2" style="background:mediumseagreen;color:white;font-weight:bold;padding:10px 18px;margin:5px;font-size:16px"></button><br>
+    <button id="bkF" style="margin-top:10px;font-size:14px;padding:6px 14px"></button>
+  </div>
+  <div id="frL" style="display:none;font-size:15px">
+    <input id="fn" size="10" style="font-size:15px;padding:4px">
+    <input id="fid" maxlength="10" size="10" placeholder="ID" style="font-size:15px;padding:4px">
+    <button id="af" style="background:mediumpurple;color:white;font-weight:bold;font-size:15px;padding:5px 12px"></button>
+    <div id="fls" style="margin:8px 0;max-height:130px;overflow:auto;border:1px solid lavender;padding:4px"></div>
+    <button id="bkL" style="font-size:14px;padding:6px 14px"></button>
+  </div>
+  <div id="frW" style="display:none;font-size:14px;text-align:left">
+    <div id="hwW" style="background:aliceblue;padding:8px;margin-bottom:8px;border-radius:6px"></div>
+    <div style="text-align:center">
+      <button id="mkC" style="background:gold;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+      <button id="noW" style="background:coral;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button><br>
+      <textarea id="cdI" rows="2" cols="36" style="margin-top:6px;font-size:12px" placeholder="CODE"></textarea><br>
+      <button id="goW" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 14px"></button>
+      <button id="bkW" style="font-size:14px;padding:6px 14px"></button>
+    </div>
+  </div>
+</div>
+
+<div id="otV" style="display:none">
+  <div id="otN" style="font-weight:bold;color:seagreen;margin-bottom:8px;font-size:18px"></div>
+  <div id="otG" style="display:inline-flex;gap:8px;margin:6px 0"></div><br>
+  <button id="lk" style="background:hotpink;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="coB" style="background:royalblue;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="acB" style="background:darkorange;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="nx" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 12px"></button>
+  <button id="bkO" style="font-size:14px;padding:6px 12px"></button>
+  <div id="coBox" style="display:none;margin-top:8px;padding:8px;background:aliceblue;border:2px solid royalblue;border-radius:8px">
+    <canvas id="cc" width="160" height="160" style="border:2px solid royalblue;background:white;cursor:crosshair;touch-action:none"></canvas><br>
+    <input id="coh" type="range" min="0" max="360" value="0" style="width:110px">
+    <button id="coSv" style="background:orange;color:white;font-weight:bold;font-size:13px;padding:5px 10px"></button>
+  </div>
+  <div id="aucB" style="display:none;margin-top:8px;padding:8px;background:ivory;border:2px solid orange;border-radius:8px;font-size:14px">
+    <div id="aucP" style="font-weight:bold;color:purple"></div>
+    <div id="aucT" style="font-weight:bold;color:crimson;margin:4px 0"></div>
+    <button id="bidB" style="background:crimson;color:white;font-weight:bold;font-size:14px;padding:5px 12px"></button>
+  </div>
+  <div id="oms" style="color:darkorange;font-weight:bold;margin-top:5px;font-size:14px"></div>
+</div>
 <script>
-const x = c.getContext('2d'), px = pc.getContext('2d'), tx2 = tc.getContext('2d');
+const x = c.getContext('2d'), px = pc.getContext('2d'), tx2 = tc.getContext('2d'), cx3 = cc.getContext('2d');
 const SZ = ['8', '12', '16', '32'];
 let B = Array.from({length: 8}, () => Array(8).fill(''));
-let tL = 0, lvC = 0, rbH = 0, ck1 = 0, ck2 = 0, ck3 = 0, isCr = 0, crSt = 0, inT = 0, pmd = 0;
-let mn = 100, hasPet = 0, gFrmEnd = 0, CARDS = [], uH = [], rH = [], tl = 0;
-let txX = 60, txY = 60, txC = 'hsl(200,100%,50%)', zm2 = 1, gd = 1, lv1 = 1, lv2 = 1, mxG = 1, mxB = 2;
+let CB = Array.from({length: 16}, () => Array(16).fill(''));
+let tL = 0, bg = 0, bt = 0, ni = 0, lkd = 0, fmd = 0, pmd = 0, sel = 0, inT = 0, lvC = 0, rbH = 0;
+let ck1 = 0, ck2 = 0, ck3 = 0, isCr = 0, dnTd = 0, dnDy = 0, aucOn = 0, aucBid = 0, crSt = 0, tl = 0;
+let mn = 100, hasPet = 0, gFrmEnd = 0, CARDS = [], uH = [], rH = [];
+let txX = 60, txY = 60, txC = 'hsl(200,100%,50%)', auCtx = null;
+let zm2 = 1, gd = 1, lv1 = 1, lv2 = 1, mxG = 1, mxB = 2;
 let G = [], BG = [], FL = [], USED = [], cx2 = 110, cy2 = 110, dogX = 80, dogY = 110, cstX = 0, pName = '', dotId = '';
+
+const ml = '523,659,784,659,587,698,880,698'.split(',');
+const bs2 = '131,196,131,196,147,220,147,220'.split(',');
+const pkM = '523,659,784,1047,1047,988,784,659'.split(',');
+const RN = ['SORA', 'YUT', 'HARU', 'LUNA', 'KAI'];
 
 const w0 = ['PEN','ERASER','FILL','PICKER','TO BAG','SELL NOW','CLEAR','PRICE+','SPEED+','SHOP SLOT','BAG SLOT','SIZE UP','SOLD!','MOVED!','FULL!','TUTORIAL','SKIP / START','ENTER NAME','CREATOR','WALK(WASD)','DRAW:WASD | Move'];
 const w1 = ['ペン','消しゴム','塗りつぶし','スポイト','バッグへ','今すぐ売る','全消し','価格アップ','スピードUP','店枠+1','バッグ+1','サイズ拡大','売れた!','移動した!','いっぱい!','チュートリアル','スキップ / 開始','名前を入力','創造者','歩く(WASD)','描く:WASD | 移動'];
@@ -170,7 +251,7 @@ tc.onclick = e => {
 };
 
 const sv = () => {
-  const s = JSON.stringify({ mn, lv1, lv2, lvC, mxG, mxB, G, BG, B, FL, pName, dotId, USED, isCr, hasPet, gFrmEnd, CARDS });
+  const s = JSON.stringify({ mn, lv1, lv2, lvC, mxG, mxB, G, BG, B, FL, pName, dotId, USED, isCr, dnTd, dnDy, hasPet, gFrmEnd, CARDS });
   try { localStorage.setItem('DOT_YUNIVERSE_SAVE', s); } catch (e) {}
   try { window.name = s; } catch (e) {}
 };
@@ -221,6 +302,7 @@ setInterval(() => {
       if (!isCr) mn += pr;
       rGL(); usH(); sv();
       ms.innerText = `${tx(12)}+$${isCr ? '∞' : pr}`;
+      tn(1047, 'triangle', 0.15, 0.06);
     }
     if (cstX >= 460) cstX = 0;
     if (pmd) dwP();
@@ -233,6 +315,8 @@ const setLang = L => {
   bgB.innerText = tx(4); slBtn.innerText = tx(5); cl.innerText = tx(6);
   vw.innerText = tx(19); pkH.innerText = tx(20);
   sb.innerText = tL ? '🌟 スーパーショップ' : '🌟 SUPER SHOP';
+  db.innerText = tL ? '寄付' : 'DONATE';
+  fb.innerText = tL ? 'フレンド' : 'FRIENDS';
   spT.innerText = tL ? '🌟 スーパーショップ 🌟' : '🌟 SUPER SHOP 🌟';
   petT.innerText = tL ? 'ペット：犬' : 'Pet: Dog';
   petD.innerText = tL ? 'お散歩についてくる！販売スピードが永久に2倍' : 'Follows you on walks! Permanently 2x speed';
@@ -241,8 +325,24 @@ const setLang = L => {
   crdT.innerText = tL ? 'ドットカードパック' : 'Dot Card Pack';
   crdD.innerText = tL ? 'N〜SAR(黒龍$100万)のリアルドット絵カード！E以上は売却可能' : 'Collect N~SAR cards! Sell E+ for cash';
   colT.innerText = tL ? '📖 コレクション図鑑（E以上は売却可能）' : '📖 Card Collection (Sell E+)';
-  bkS.innerText = tL ? '戻る' : 'BACK';
-  buyCrd.innerText = '$300';
+  bkS.innerText = tL ? '戻る' : 'BACK'; buyCrd.innerText = '$300';
+  dnT.innerText = tL ? '寄付パネル' : 'DONATE PANEL';
+  dnSub1.innerText = tL ? '📤 寄付を送る（ギフトコード発行）' : '📤 Send Donation (Issue Gift Code)';
+  dnSub2.innerText = tL ? '📥 ギフトコードで受け取る' : '📥 Receive with Gift Code';
+  dnAsk.innerText = tL ? '送る金額を入力:' : 'Enter amount to send:';
+  dnGo.innerText = tL ? '寄付を送る' : 'SEND DONATION';
+  bkD.innerText = tL ? '戻る' : 'BACK';
+  frT.innerText = tL ? 'メニュー' : 'MENU';
+  ch1.innerText = tL ? '一覧' : 'LIST'; ch2.innerText = tL ? '訪問' : 'VISIT';
+  bkF.innerText = bkL.innerText = bkW.innerText = tL ? '戻る' : 'BACK';
+  af.innerText = tL ? '追加' : 'ADD'; fn.placeholder = tL ? '名前' : 'NAME';
+  hwW.innerHTML = tL ? '1.「コードコピー」で相手に送る。<br>2.貼り付けて「訪問」を押す。<br>*送れないときは「できない」を押してね!' : '1.Click MY CODE & send.<br>2.Paste & click VISIT.<br>*If unable click CANT DO IT!';
+  mkC.innerText = tL ? 'コードコピー(完了)' : 'MY CODE(COPIED)';
+  noW.innerText = tL ? 'できない(ランダム)' : 'CANT DO IT(RANDOM)';
+  goW.innerText = tL ? '訪問' : 'VISIT'; lk.innerText = tL ? 'いいね!(+$30)' : 'LIKE!(+$30)';
+  coB.innerText = tL ? '一緒にお絵描き' : 'CO-OP DRAW'; coSv.innerText = tL ? 'バッグに保存' : 'SAVE TO BAG';
+  acB.innerText = tL ? 'オークション(3人)' : 'AUCTION (3P)'; bidB.innerText = tL ? '入札 +$100' : 'BID +$100';
+  nx.innerText = tL ? '次へ' : 'NEXT'; bkO.innerText = tL ? '戻る' : 'BACK';
   g.style.display = 'none';
   const d2 = getSave();
   if (d2 && d2.pName && d2.dotId) {
@@ -263,19 +363,21 @@ nmOk.onclick = () => {
 
 go.onclick = () => {
   inT = 0; hlp.style.display = 'none'; m.style.display = 'block';
-  sb.style.display = 'inline';
+  sb.style.display = db.style.display = fb.style.display = mb.style.display = 'inline';
   const d2 = getSave();
   if (d2) {
     mn = d2.mn != null ? d2.mn : 100; lv1 = d2.lv1 || 1; lv2 = d2.lv2 || 1; lvC = d2.lvC || 0;
-    mxG = d2.mxG || 1; mxB = d2.mxB || 2; G = d2.G || []; BG = d2.BG || [];
+    mxG = d2.mxG || 1; mxB = d2.mxB || 2; G = d2.G || []; BG = d2.BG || []; FL = d2.FL || [];
     if (d2.B) B = d2.B;
-    isCr = d2.isCr || 0; hasPet = d2.hasPet || 0; gFrmEnd = d2.gFrmEnd || 0; CARDS = d2.CARDS || [];
+    isCr = d2.isCr || 0; dnTd = d2.dnTd || 0; dnDy = d2.dnDy || 0;
+    hasPet = d2.hasPet || 0; gFrmEnd = d2.gFrmEnd || 0; CARDS = d2.CARDS || [];
   }
   crB.style.display = isCr ? 'inline' : 'none';
   pInf.innerText = pName; dId.innerText = dotId;
-  uCol(); usH(); dw(); rGL();
+  uCol(); usH(); dw(); rGL(); rFL();
 };
 
+cpId.onclick = () => { if (navigator.clipboard) navigator.clipboard.writeText(dotId); cpId.innerText = 'OK!'; setTimeout(() => cpId.innerText = 'COPY', 1000); };
 t0.onclick = () => tl = 0; t1.onclick = () => tl = 1; t2.onclick = () => tl = 2; t3.onclick = () => tl = 3;
 gr.onclick = () => { gd = !gd; dw(); };
 zm.onclick = () => { zm2 = zm2 === 1 ? 1.5 : zm2 === 1.5 ? 2 : 1; c.width = c.height = 300 * zm2; zm.innerText = `ZOOM:${zm2}x`; dw(); };
@@ -298,7 +400,7 @@ const drw = (cx4, cy4) => {
   if (tl === 2) fl(r, c2, B[r][c2], gCol());
   if (tl === 3 && B[r][c2]) {
     const pt = B[r][c2].slice(4, -1).split(',');
-    ch.value = parseInt(pt); cs.value = parseInt(pt); cl2.value = parseInt(pt); uCol(); tl = 0;
+    ch.value = parseInt(pt[0]); cs.value = parseInt(pt[1]); cl2.value = parseInt(pt[2]); uCol(); tl = 0;
   }
   dw(); sv();
 };
@@ -306,18 +408,17 @@ let dn = 0;
 c.onpointerdown = e => { if (tl !== 3) svH(); dn = 1; c.setPointerCapture(e.pointerId); drw(e.clientX, e.clientY); };
 c.onpointermove = e => { if (dn) drw(e.clientX, e.clientY); };
 c.onpointerup = () => { dn = 0; };
-
 bgB.onclick = () => {
   if (!cVal(B)) return;
   if (BG.length >= mxB) { ms.innerText = tx(14); return; }
   BG.push(B.map(r => r.slice())); svH(); const n2 = Number(SZ[lvC]);
-  B = Array.from({length: n2}, () => Array(n2).fill('')); rGL(); usH(); dw(); sv(); ms.innerText = tx(13);
+  B = Array.from({length: n2}, () => Array(n2).fill('')); rGL(); usH(); dw(); sv(); ms.innerText = tx(13); tn(784, 'triangle', 0.15, 0.05);
 };
 slBtn.onclick = () => {
   if (!cVal(B)) return;
   if (G.length >= mxG) { ms.innerText = tx(14); return; }
   G.push({ art: B.map(r => r.slice()), gold: Date.now() < gFrmEnd ? 1 : 0 }); svH(); const n2 = Number(SZ[lvC]);
-  B = Array.from({length: n2}, () => Array(n2).fill('')); rGL(); usH(); dw(); sv(); ms.innerText = tx(13);
+  B = Array.from({length: n2}, () => Array(n2).fill('')); rGL(); usH(); dw(); sv(); ms.innerText = tx(13); tn(880, 'triangle', 0.15, 0.05);
 };
 
 u1.onclick = () => { if (isCr || mn >= lv1 * 40) { if (!isCr) mn -= lv1 * 40; lv1++; usH(); rGL(); sv(); } };
@@ -358,20 +459,20 @@ onkeydown = e => {
     if (k === 'a') txX = Math.max(0, txX - 32); if (k === 'd') txX = Math.min(128, txX + 32);
     if ('wasd'.includes(k)) { ck3 = 1; dwT(); } return;
   }
-  if (!pmd) return;
+  if (!pmd || fmd) return;
   if (k === 'w') cy2 = Math.max(10, cy2 - 12); if (k === 's') cy2 = Math.min(165, cy2 + 12);
   if (k === 'a') cx2 = Math.max(10, cx2 - 12); if (k === 'd') cx2 = Math.min(385, cx2 + 12);
   dwP();
 };
 
-sb.onclick = () => { edV.style.display = pkV.style.display = 'none'; spV.style.display = 'block'; spMsg.innerText = ''; gachaRes.style.display = 'none'; rCards(); };
+sb.onclick = () => { edV.style.display = pkV.style.display = frV.style.display = dnV.style.display = 'none'; spV.style.display = 'block'; spMsg.innerText = ''; gachaRes.style.display = 'none'; rCards(); };
 bkS.onclick = () => { spV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
 
 buyPet.onclick = () => {
   if (hasPet) return;
   if (!isCr && mn < 500) { spMsg.innerText = tL ? 'お金が足りません！' : 'Not enough money!'; return; }
   if (!isCr) mn -= 500;
-  hasPet = 1; usH(); sv(); spMsg.style.color = 'seagreen';
+  hasPet = 1; usH(); sv(); tn(1047, 'triangle', 0.2, 0.08); spMsg.style.color = 'seagreen';
   spMsg.innerText = tL ? '🐶 ペットの犬を購入しました！販売速度が2倍になります！' : '🐶 Adopted a Dog! Speed is 2x!';
 };
 
@@ -381,9 +482,10 @@ buyFrm.onclick = () => {
   if (!isCr) mn -= 1000;
   gFrmEnd = Date.now() + 600000;
   G = G.map(it => Array.isArray(it) ? { art: it, gold: 1 } : { art: it.art, gold: 1 });
-  rGL(); usH(); sv(); spMsg.style.color = 'darkorange';
+  rGL(); usH(); sv(); tn(1175, 'triangle', 0.25, 0.08); spMsg.style.color = 'darkorange';
   spMsg.innerText = tL ? '✨ 黄金の額縁が10分間有効になりました！（売るまで外れません）' : '✨ Golden Frame active for 10 mins!';
 };
+
 const CARD_POOL = [
   { r: 'N', nm: 'スライム', en: 'Slime', val: 0, col: '#888', c1: '#4fc3f7', c2: '#0288d1', pat: '00000000,00011000,00122100,01211210,12111121,12222221,01111110,00000000' },
   { r: 'NR', nm: '森のキノコ', en: 'Forest Shroom', val: 0, col: '#2e7d32', c1: '#e53935', c2: '#ffe0b2', pat: '00111100,01121210,11111111,11211121,00222200,00211200,00222200,00000000' },
@@ -394,7 +496,6 @@ const CARD_POOL = [
   { r: 'SSR', nm: '銀河の守護神', en: 'Galaxy Guardian', val: 10000, col: '#d50000', c1: '#7c4dff', c2: '#00e676', pat: '00111100,01211210,11122111,12111121,01122110,00111100,01200210,11000011' },
   { r: 'SAR', nm: '黒龍 (BLACK DRAGON)', en: 'SAR BLACK DRAGON', val: 1000000, col: '#111', c1: '#212121', c2: '#ff1744', pat: '11000011,12100121,01111110,11211211,11111111,01122110,10111101,10011001' }
 ];
-
 const drawCardArt = (cv, cObj) => {
   const cx = cv.getContext('2d');
   cx.fillStyle = cObj.r === 'SAR' ? '#1a1a2e' : '#f8f9fa';
@@ -416,7 +517,7 @@ buyCrd.onclick = () => {
   const idx = rnd < 0.5 ? 7 : rnd < 2.5 ? 6 : rnd < 7 ? 5 : rnd < 15 ? 4 : rnd < 30 ? 3 : rnd < 52 ? 2 : rnd < 76 ? 1 : 0;
   const pick = CARD_POOL[idx];
   CARDS.push({ id: Date.now() + Math.random(), ...pick });
-  usH(); sv(); rCards();
+  usH(); sv(); rCards(); tn(pick.r === 'SAR' ? 1318 : 1120, 'triangle', 0.25, 0.08);
   gachaRes.style.display = 'block';
   gachaRes.style.borderColor = pick.r === 'SAR' ? 'crimson' : 'gold';
   gachaRes.style.background = pick.r === 'SAR' ? '#222' : 'aliceblue';
@@ -445,7 +546,7 @@ const rCards = () => {
       sBtn.onclick = () => {
         const sold = CARDS.splice(ix, 1)[0];
         if (!isCr) mn += sold.val;
-        usH(); sv(); rCards();
+        usH(); sv(); rCards(); tn(1047, 'triangle', 0.15, 0.06);
         spMsg.style.color = 'seagreen';
         spMsg.innerText = tL ? `💰 ${sold.nm} を $${sold.val.toLocaleString()} で売却しました！` : `💰 Sold for $${sold.val.toLocaleString()}!`;
       };
@@ -458,6 +559,152 @@ const rCards = () => {
   });
 };
 
+db.onclick = () => {
+  edV.style.display = pkV.style.display = frV.style.display = spV.style.display = 'none';
+  dnV.style.display = 'block'; dnId.value = ''; dnAmtB.style.display = 'none';
+  dnRes.innerText = ''; dnCodeBox.style.display = 'none'; dnRcvRes.innerText = '';
+};
+dnId.oninput = () => { dnAmtB.style.display = dnId.value.trim().length === 10 ? 'block' : 'none'; dnRes.innerText = ''; dnCodeBox.style.display = 'none'; };
+dnGo.onclick = () => {
+  const td = new Date().getDate();
+  if (dnDy !== td) { dnDy = td; dnTd = 0; }
+  const v3 = Math.floor(Number(dnAmt.value) || 0);
+  if (v3 <= 0) return;
+  if (!isCr && (dnTd + v3 > 1000000 || mn < v3)) { dnRes.innerText = tL ? '1日 $1,000,000までお金不足！' : 'Max $1M/day or NO money!'; return; }
+  if (!isCr) { mn -= v3; dnTd += v3; }
+  usH(); sv(); tn(1047, 'triangle', 0.2, 0.06);
+  const tid = dnId.value.toUpperCase();
+  dnRes.innerText = tL ? `✅ ID:${tid} に $${v3} 送金しました！` : `✅ Sent $${v3} to ID:${tid}!`;
+  dnGiftOut.value = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
+  dnCodeBox.style.display = 'block';
+};
+cpGift.onclick = () => { if (navigator.clipboard) navigator.clipboard.writeText(dnGiftOut.value); cpGift.innerText = 'COPIED!'; setTimeout(() => cpGift.innerText = 'COPY GIFT CODE', 1200); };
+dnRcvBtn.onclick = () => {
+  try {
+    const raw = dnRcvIn.value.trim();
+    if (!raw.startsWith('GIFT-')) throw 0;
+    const data = JSON.parse(atob(raw.slice(5)));
+    if (data.to && data.to !== dotId) { dnRcvRes.style.color = 'crimson'; dnRcvRes.innerText = tL ? `❌ このコードは ID:${data.to} 宛てです` : `❌ This code is for ID:${data.to}`; return; }
+    if (!isCr) mn += Number(data.amt) || 0;
+    usH(); sv(); tn(880, 'sine', 0.2, 0.08);
+    dnRcvRes.style.color = 'seagreen'; dnRcvRes.innerText = tL ? `🎉 ${data.from} から $${data.amt} を受け取りました！` : `🎉 Received $${data.amt} from ${data.from}!`;
+    dnRcvIn.value = '';
+  } catch (e) { dnRcvRes.style.color = 'crimson'; dnRcvRes.innerText = tL ? '❌ 無効なギフトコードです' : '❌ Invalid Gift Code'; }
+};
+bkD.onclick = () => { dnV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
+fb.onclick = () => {
+  fmd = 1; edV.style.display = pkV.style.display = dnV.style.display = spV.style.display = 'none';
+  frV.style.display = 'block'; frM.style.display = 'block'; frL.style.display = frW.style.display = otV.style.display = 'none';
+  if (!bg) { bg = 1; mb.innerText = 'BGM:ON'; pl(); }
+};
+bkF.onclick = () => { fmd = 0; frV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
+ch1.onclick = () => { frM.style.display = 'none'; frL.style.display = 'block'; rFL(); };
+ch2.onclick = () => { frM.style.display = 'none'; frW.style.display = 'block'; cdI.value = ''; };
+bkL.onclick = bkW.onclick = bkO.onclick = () => {
+  frL.style.display = frW.style.display = otV.style.display = 'none';
+  frM.style.display = 'block'; aucB.style.display = 'none'; coBox.style.display = 'none';
+};
+af.onclick = () => {
+  const v2 = fn.value.trim(), v4 = fid.value.trim().toUpperCase();
+  if (v2) { FL.push(v2 + (v4 ? `[ID:${v4}]` : '')); fn.value = fid.value = ''; rFL(); sv(); tn(880, 'sine', 0.1, 0.04); }
+};
+mkC.onclick = () => {
+  cdI.value = btoa(encodeURIComponent(JSON.stringify({ nm: pName, id: dotId, lv: lv1, g: G.map(x => Array.isArray(x) ? x : x.art).concat(BG) })));
+  cdI.select(); document.execCommand('copy'); tn(880, 'sine', 0.1, 0.04);
+};
+noW.onclick = () => { frW.style.display = 'none'; otV.style.display = 'block'; nx.style.display = 'inline'; mkR(); };
+
+const mkR = () => {
+  lkd = 0; aucOn = 0; aucB.style.display = 'none'; coBox.style.display = 'none'; oms.innerText = '';
+  otN.innerText = `${RN[Math.floor(Math.random() * RN.length)]} [Lv${Math.floor(Math.random() * 90) + 1}]`;
+  otG.innerHTML = '';
+  const cnt2 = Math.floor(Math.random() * 3) + 1;
+  for (let k2 = 0; k2 < cnt2; k2++) {
+    const cv2 = document.createElement('canvas'); cv2.width = cv2.height = 88;
+    const cx = cv2.getContext('2d'), hue = Math.floor(Math.random() * 360);
+    for (let y = 0; y < 16; y++) for (let z = 0; z < 8; z++) if (Math.random() > 0.45) {
+      cx.fillStyle = `hsl(${(hue + y * 8) % 360},80%,${40 + z * 5}%)`;
+      cx.fillRect(z * 5.5, y * 5.5, 5.5, 5.5); cx.fillRect((15 - z) * 5.5, y * 5.5, 5.5, 5.5);
+    }
+    cv2.style.border = '2px solid mediumseagreen'; cv2.style.background = 'white'; otG.appendChild(cv2);
+  }
+};
+
+goW.onclick = () => {
+  try {
+    const d3 = JSON.parse(decodeURIComponent(atob(cdI.value.trim())));
+    frW.style.display = 'none'; otV.style.display = 'block'; nx.style.display = 'none';
+    lkd = 0; aucOn = 0; aucB.style.display = 'none'; coBox.style.display = 'none'; oms.innerText = '';
+    otN.innerText = `${d3.nm || 'FRIEND'} [ID:${d3.id || '---'}]`;
+    otG.innerHTML = '';
+    (d3.g || []).forEach(g2 => {
+      const n2 = g2.length, st3 = 88 / n2;
+      const cv2 = document.createElement('canvas'); cv2.width = cv2.height = 88;
+      const cx = cv2.getContext('2d');
+      g2.forEach((r, y) => r.forEach((v, z) => { if (v) { cx.fillStyle = v; cx.fillRect(z * st3, y * st3, st3, st3); } }));
+      cv2.style.border = '2px solid mediumseagreen'; cv2.style.background = 'white'; otG.appendChild(cv2);
+    });
+  } catch (e) {}
+};
+const dwC = () => {
+  cx3.fillStyle = 'white'; cx3.fillRect(0, 0, 160, 160);
+  CB.forEach((r, y) => r.forEach((v, z) => { if (v) { cx3.fillStyle = v; cx3.fillRect(z * 10, y * 10, 10, 10); } }));
+  cx3.strokeStyle = 'lightgray';
+  for (let i = 0; i <= 16; i++) {
+    cx3.beginPath(); cx3.moveTo(i * 10, 0); cx3.lineTo(i * 10, 160);
+    cx3.moveTo(0, i * 10); cx3.lineTo(160, i * 10); cx3.stroke();
+  }
+};
+coB.onclick = () => {
+  aucB.style.display = 'none'; coBox.style.display = 'block';
+  CB = Array.from({ length: 16 }, () => Array(16).fill('')); dwC();
+  oms.innerText = tL ? '友達と一緒にお絵描き！' : 'Draw together with your friend!';
+};
+let c2 = 0;
+cc.onpointerdown = e2 => { c2 = 1; cc.setPointerCapture(e2.pointerId); drwC(e2.clientX, e2.clientY); };
+cc.onpointermove = e2 => { if (c2) drwC(e2.clientX, e2.clientY); };
+cc.onpointerup = () => { c2 = 0; };
+const drwC = (cx4, cy4) => {
+  const rc = cc.getBoundingClientRect();
+  const col = Math.floor((cx4 - rc.left) / 10), r = Math.floor((cy4 - rc.top) / 10);
+  if (r < 0 || r >= 16 || col < 0 || col >= 16) return;
+  CB[r][col] = `hsl(${coh.value},95%,50%)`;
+  if (Math.random() > 0.35) {
+    const rx = Math.floor(Math.random() * 16), ry = Math.floor(Math.random() * 16);
+    if (!CB[ry][rx]) CB[ry][rx] = `hsl(${(Number(coh.value) + 150) % 360},90%,50%)`;
+  }
+  dwC();
+};
+coSv.onclick = () => {
+  if (BG.length >= mxB) { oms.innerText = tx(14); return; }
+  BG.push(CB.map(r => r.slice())); rGL(); usH(); sv(); tn(880, 'triangle', 0.15, 0.06);
+  oms.innerText = tL ? '協力アートをバッグに保存！' : 'Saved co-op art to BAG!';
+};
+
+acB.onclick = () => {
+  coBox.style.display = 'none'; aucOn = 1; aucBid = 100; aucB.style.display = 'block';
+  aucP.innerText = tL ? `参加者: You(${pName}) / Host / Guest` : `Players: You(${pName}) / Host / Guest`;
+  aucT.innerText = tL ? `現在価格: $${aucBid}` : `Current Bid: $${aucBid}`;
+};
+bidB.onclick = () => {
+  if (!aucOn) return;
+  if (!isCr && mn < aucBid + 100) { oms.innerText = tx(14); return; }
+  aucBid += 100; if (!isCr) mn -= 100; usH(); sv(); tn(880, 'triangle', 0.15, 0.06);
+  aucT.innerText = tL ? `現在価格: $${aucBid}` : `Current Bid: $${aucBid}`;
+  oms.innerText = tL ? `あなたが最高入札者！ ($${aucBid})` : `You are highest bidder! ($${aucBid})`;
+  setTimeout(() => {
+    if (Math.random() > 0.5 && aucOn) {
+      aucBid += 100;
+      aucT.innerText = tL ? `現在価格: $${aucBid}` : `Current Bid: $${aucBid}`;
+      oms.innerText = tL ? `ゲストが上回りました！ ($${aucBid})` : `Guest outbid you! ($${aucBid})`;
+    }
+  }, 800);
+};
+nx.onclick = () => { mkR(); tn(659, 'sine', 0.1, 0.04); };
+lk.onclick = () => {
+  if (lkd) return;
+  lkd = 1; if (!isCr) mn += 30; oms.innerText = tL ? 'いいね済!+$30' : 'LIKED!+$30'; tn(1047, 'triangle', 0.15, 0.06); usH(); sv();
+};
 const dw = () => {
   const n2 = B.length, sz = (300 / n2) * zm2;
   x.fillStyle = 'white'; x.fillRect(0, 0, c.width, c.height);
@@ -482,7 +729,7 @@ const rGL = () => {
     btn.style.cssText = 'display:block;font-size:11px;background:orange;color:white;border:none;border-radius:4px;padding:2px 6px;margin-top:2px;cursor:pointer';
     btn.onclick = () => {
       if (G.length >= mxG) { ms.innerText = tx(14); return; }
-      G.push({ art: BG.splice(ix, 1)[0], gold: Date.now() < gFrmEnd ? 1 : 0 }); rGL(); usH(); sv();
+      G.push({ art: BG.splice(ix, 1)[0], gold: Date.now() < gFrmEnd ? 1 : 0 }); rGL(); usH(); sv(); tn(784, 'sine', 0.08, 0.04);
     };
     card.appendChild(cv2); card.appendChild(btn); bgl.appendChild(card);
   });
@@ -498,118 +745,43 @@ const rGL = () => {
     prTag.innerText = `${isG ? '✨' : ''}$${val}`; prTag.style.cssText = 'font-weight:bold;color:darkorange;font-size:13px;margin:2px 0';
     const sBtn = document.createElement('button'); sBtn.innerText = tL ? '今すぐ売る' : 'SELL';
     sBtn.style.cssText = 'font-size:11px;background:mediumseagreen;color:white;border:none;border-radius:4px;padding:2px 6px;margin-right:3px;cursor:pointer';
-    sBtn.onclick = () => { const p = cVal(G.splice(ix, 1)[0]); if (!isCr) mn += p; rGL(); usH(); sv(); ms.innerText = `${tx(12)}+$${isCr ? '∞' : p}`; };
+    sBtn.onclick = () => { const p = cVal(G.splice(ix, 1)[0]); if (!isCr) mn += p; rGL(); usH(); sv(); ms.innerText = `${tx(12)}+$${isCr ? '∞' : p}`; tn(1047, 'triangle', 0.12, 0.06); };
     const bBtn = document.createElement('button'); bBtn.innerText = tL ? '戻す' : 'BAG';
     bBtn.style.cssText = 'font-size:11px;background:gray;color:white;border:none;border-radius:4px;padding:2px 5px;cursor:pointer';
-    bBtn.onclick = () => { if (BG.length >= mxB) { ms.innerText = tx(14); return; } BG.push(g2); G.splice(ix, 1); rGL(); usH(); sv(); };
+    bBtn.onclick = () => { if (BG.length >= mxB) { ms.innerText = tx(14); return; } BG.push(g2); G.splice(ix, 1); rGL(); usH(); sv(); tn(659, 'sine', 0.07, 0.04); };
     card.appendChild(cv2); card.appendChild(prTag); card.appendChild(sBtn); card.appendChild(bBtn); gl.appendChild(card);
   });
 };
+
+const rFL = () => {
+  fls.innerHTML = tL ? '訪問' : 'VISIT';
+  FL.forEach((f2, ix) => {
+    const dv = document.createElement('div');
+    dv.innerHTML = `${f2} <button onclick="FL.splice(${ix},1);rFL();sv()">X</button>`;
+    fls.appendChild(dv);
+  });
+};
+
+const tn = (f, tp, du, vl) => {
+  if (!f) return;
+  if (!auCtx) auCtx = new AudioContext();
+  auCtx.resume();
+  const o2 = auCtx.createOscillator(), g2 = auCtx.createGain();
+  o2.type = tp; o2.frequency.value = f;
+  g2.gain.setValueAtTime(vl, auCtx.currentTime);
+  g2.gain.exponentialRampToValueAtTime(0.001, auCtx.currentTime + du);
+  o2.connect(g2); g2.connect(auCtx.destination); o2.start(); o2.stop(auCtx.currentTime + du);
+};
+
+const pl = () => {
+  if (!bg) return;
+  const n3 = ni % 8;
+  if (fmd) { tn(pkM[n3], 'sine', 0.45, 0.05); tn(bs2[n3], 'triangle', 0.5, 0.04); ni++; bt = setTimeout(pl, 260); }
+  else { tn(ml[n3], 'triangle', 0.22, 0.05); tn(bs2[n3], 'triangle', 0.25, 0.08); ni++; bt = setTimeout(pl, 180); }
+};
+mb.onclick = () => { bg = !bg; mb.innerText = bg ? 'BGM:ON' : 'BGM:OFF'; if (bg) pl(); else clearTimeout(bt); };
+
 uCol(); usH(); dw();
 </script>
 </body>
 </html>
-<div id="dnV" style="display:none;max-width:480px;margin:16px auto;background:white;padding:20px;border:3px solid gold;border-radius:14px;font-size:16px">
-  <div style="font-weight:bold;color:darkorange;margin-bottom:10px;font-size:20px" id="dnT"></div>
-  <div style="background:ivory;padding:12px;border-radius:10px;border:1px solid gold;margin-bottom:12px">
-    <div style="font-weight:bold;color:darkslategray;margin-bottom:6px" id="dnSub1"></div>
-    <input id="dnId" maxlength="10" size="14" placeholder="ID (10 chars)" style="text-align:center;font-size:16px;padding:6px;border-radius:6px">
-    <div id="dnAmtB" style="display:none;margin-top:8px">
-      <div id="dnAsk" style="color:royalblue;font-weight:bold;margin-bottom:6px"></div>
-      <input id="dnAmt" type="number" min="1" placeholder="100" style="width:140px;text-align:center;font-size:16px;padding:6px;border-radius:6px">
-      <button id="dnGo" style="background:gold;font-weight:bold;font-size:15px;padding:6px 14px;border-radius:6px;cursor:pointer"></button>
-    </div>
-    <div id="dnRes" style="color:crimson;font-weight:bold;margin-top:8px"></div>
-    <div id="dnCodeBox" style="display:none;margin-top:8px;background:aliceblue;padding:8px;border-radius:8px;border:1px dashed royalblue">
-      <input id="dnGiftOut" readonly style="width:90%;font-size:12px;padding:4px;margin:4px 0;text-align:center"><br>
-      <button id="cpGift" style="background:royalblue;color:white;font-size:13px;padding:4px 12px;border-radius:6px;cursor:pointer">COPY GIFT CODE</button>
-    </div>
-  </div>
-  <div style="background:honeydew;padding:12px;border-radius:10px;border:1px solid mediumseagreen">
-    <div style="font-weight:bold;color:seagreen;margin-bottom:6px" id="dnSub2"></div>
-    <input id="dnRcvIn" placeholder="GIFT CODE" style="width:70%;font-size:14px;padding:6px;border-radius:6px">
-    <button id="dnRcvBtn" style="background:mediumseagreen;color:white;font-weight:bold;font-size:14px;padding:6px 12px;border-radius:6px;cursor:pointer">OK</button>
-    <div id="dnRcvRes" style="color:seagreen;font-weight:bold;margin-top:6px;font-size:14px"></div>
-  </div>
-  <button id="bkD" style="margin-top:14px;font-size:14px;padding:6px 18px;border-radius:8px;cursor:pointer"></button>
-</div>
-let dnTd = 0, dnDy = 0;
-topBtns.innerHTML += '<button id="db" style="display:none;background:gold;color:black;font-weight:bold;border-radius:8px;font-size:14px;padding:6px 12px;cursor:pointer;margin-right:4px"></button>';
-const db = document.getElementById('db');
-
-const origGo2 = go.onclick;
-go.onclick = () => {
-  origGo2();
-  db.style.display = 'inline';
-  db.innerText = tL ? '寄付' : 'DONATE';
-  dnT.innerText = tL ? '寄付パネル' : 'DONATE PANEL';
-  dnSub1.innerText = tL ? '📤 寄付を送る（ギフトコード発行）' : '📤 Send Donation (Issue Gift Code)';
-  dnSub2.innerText = tL ? '📥 ギフトコードで受け取る' : '📥 Receive with Gift Code';
-  dnAsk.innerText = tL ? '送る金額を入力:' : 'Enter amount to send:';
-  dnGo.innerText = tL ? '寄付を送る' : 'SEND DONATION';
-  bkD.innerText = tL ? '戻る' : 'BACK';
-  const d2 = getSave();
-  if (d2) { dnTd = d2.dnTd || 0; dnDy = d2.dnDy || 0; }
-};
-
-const origSv = sv;
-window.sv = () => {
-  origSv();
-  const d2 = getSave() || {};
-  d2.dnTd = dnTd; d2.dnDy = dnDy;
-  const s = JSON.stringify(d2);
-  try { localStorage.setItem('DOT_YUNIVERSE_SAVE', s); } catch (e) {}
-  try { window.name = s; } catch (e) {}
-};
-
-db.onclick = () => {
-  edV.style.display = pkV.style.display = spV.style.display = 'none';
-  dnV.style.display = 'block'; dnId.value = ''; dnAmtB.style.display = 'none';
-  dnRes.innerText = ''; dnCodeBox.style.display = 'none'; dnRcvRes.innerText = '';
-};
-dnId.oninput = () => {
-  dnAmtB.style.display = dnId.value.trim().length === 10 ? 'block' : 'none';
-  dnRes.innerText = ''; dnCodeBox.style.display = 'none';
-};
-dnGo.onclick = () => {
-  const td = new Date().getDate();
-  if (dnDy !== td) { dnDy = td; dnTd = 0; }
-  const v3 = Math.floor(Number(dnAmt.value) || 0);
-  if (v3 <= 0) return;
-  if (!isCr && (dnTd + v3 > 1000000 || mn < v3)) {
-    dnRes.innerText = tL ? '1日 $1,000,000までお金不足！' : 'Max $1M/day or NO money!';
-    return;
-  }
-  if (!isCr) { mn -= v3; dnTd += v3; }
-  usH(); window.sv();
-  const tid = dnId.value.toUpperCase();
-  dnRes.innerText = tL ? `✅ ID:${tid} に $${v3} 送金しました！` : `✅ Sent $${v3} to ID:${tid}!`;
-  dnGiftOut.value = 'GIFT-' + btoa(JSON.stringify({ to: tid, amt: v3, from: pName || 'USER' }));
-  dnCodeBox.style.display = 'block';
-};
-cpGift.onclick = () => {
-  if (navigator.clipboard) navigator.clipboard.writeText(dnGiftOut.value);
-  cpGift.innerText = 'COPIED!';
-  setTimeout(() => cpGift.innerText = 'COPY GIFT CODE', 1200);
-};
-dnRcvBtn.onclick = () => {
-  try {
-    const raw = dnRcvIn.value.trim();
-    if (!raw.startsWith('GIFT-')) throw 0;
-    const data = JSON.parse(atob(raw.slice(5)));
-    if (data.to && data.to !== dotId) {
-      dnRcvRes.style.color = 'crimson';
-      dnRcvRes.innerText = tL ? `❌ このコードは ID:${data.to} 宛てです` : `❌ This code is for ID:${data.to}`;
-      return;
-    }
-    if (!isCr) mn += Number(data.amt) || 0;
-    usH(); window.sv();
-    dnRcvRes.style.color = 'seagreen';
-    dnRcvRes.innerText = tL ? `🎉 ${data.from} から $${data.amt} を受け取りました！` : `🎉 Received $${data.amt} from ${data.from}!`;
-    dnRcvIn.value = '';
-  } catch (e) {
-    dnRcvRes.style.color = 'crimson';
-    dnRcvRes.innerText = tL ? '❌ 無効なギフトコードです' : '❌ Invalid Gift Code';
-  }
-};
-bkD.onclick = () => { dnV.style.display = 'none'; if (pmd) pkV.style.display = 'block'; else edV.style.display = 'block'; };
